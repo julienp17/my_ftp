@@ -13,7 +13,9 @@ OBJ_M		=	$(MAIN:.c=.o)
 SRC			=	$(addprefix $(SRC_D), $(SRC_F))
 OBJ			=	$(SRC:.c=.o)
 SRC_D		=	src/
-SRC_F		=	
+SRC_F		=	server/server_create.c \
+				server/server_run.c \
+				server/server_destroy.c \
 
 UT_SRC		=	$(addprefix $(UT_SRC_D), $(UT_SRC_F))
 UT_OBJ		=	$(UT_SRC:.c=.o)
