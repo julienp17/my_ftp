@@ -33,7 +33,8 @@ static int handle_input(server_t *server, fd_t client_fd)
     } else if (client_disconnected(bytes)) {
         clear_client(server, client_fd);
     } else {
-        buf[(int)(strchr(buf, '\n') - buf)] = 0;
+        buf[strlen(buf) - 1] = 0;
+        printf("Received: [%s]\n", buf);
         handle_cmd(server, buf);
     }
     return 0;

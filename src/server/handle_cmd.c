@@ -14,17 +14,23 @@ int handle_cmd(server_t *server, char *cmd_line)
     char *arg = NULL;
     cmd_t *cmd = NULL;
 
-    if (name == NULL)
-        return 0; // no input
+    if (name == NULL) {
+        fprintf(stderr, "No input\n");
+        return 0;
+    }
     arg = strtok(NULL, " ");
-    if (arg != NULL && strtok(NULL, " ") != NULL)
-        return -1; // extra token
-    cmd = get_cmd(server->cmds, name);
-    if (cmd == NULL) {
-        // invalid command
+    if (arg != NULL && strtok(NULL, " ") != NULL) {
+        fprintf(stderr, "Extra token found\n");
         return -1;
     }
-    printf("Command name = [%s], descr = [%s]\n", cmd->name, cmd->descr);
-    free(cmd);
+    cmd = get_cmd(server->cmds, name);
+    if (cmd == NULL) {
+        fprintf(stderr, "Unknown command\n");
+        return -1;
+    }
+    if (cmd->func == NULL)
+        fprintf(stderr, "Command %s not implemented yet\n", cmd->name);
+    else
+        cmd->func(server, arg);
     return 0;
 }

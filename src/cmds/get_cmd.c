@@ -19,7 +19,7 @@ cmd_t **get_cmds(void)
         {"PWD", "Print working directory", NULL},
         {"PASV", "Enable \"passive\" mode for data transfer", NULL},
         {"PORT", "Enable \"active\" mode for data transfer", NULL},
-        {"HELP", "List available commands", NULL},
+        {"HELP", "List available commands", &cmd_help},
         {"NOOP", "Do nothing", NULL},
         {"RETR", "Download file from server to client", NULL},
         {"STOR", "Upload file from client to server", NULL},
