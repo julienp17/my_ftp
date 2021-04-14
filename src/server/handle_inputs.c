@@ -15,7 +15,7 @@ int handle_inputs(server_t *server)
 {
     for (fd_t fd = 0 ; fd < FD_SETSIZE ; fd++)
         // TODO: implement linked list
-        if (FD_ISSET(fd, &(server->read_fds)) && fd != server->fd)
+        if (FD_ISSET(fd, &(server->read_fds)) && fd != server->sock->fd)
             handle_input(server, fd);
     return 0;
 }
@@ -44,6 +44,7 @@ static bool client_disconnected(const ssize_t bytes_read)
 
 static void clear_client(server_t *server, fd_t client_fd)
 {
+    printf("client disconnected\n");
     close(client_fd);
     FD_CLR(client_fd, &(server->active_fds));
 }

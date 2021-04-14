@@ -16,6 +16,10 @@ SRC_D		=	src/
 SRC_F		=	server/server_create.c \
 				server/server_run.c \
 				server/server_destroy.c \
+				server/accept_client.c \
+				server/handle_inputs.c \
+				server/handle_cmd.c \
+				socket/socket_create.c
 
 UT_SRC		=	$(addprefix $(UT_SRC_D), $(UT_SRC_F))
 UT_OBJ		=	$(UT_SRC:.c=.o)

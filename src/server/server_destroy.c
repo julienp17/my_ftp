@@ -9,6 +9,7 @@
 
 void server_destroy(server_t *server)
 {
-    close(server->fd);
+    close(server->sock->fd);
+    free(server->sock);
     free(server);
 }

@@ -33,9 +33,6 @@
 #define handle_err_null(msg) \
     do { perror(msg); return NULL; } while (0)
 
-typedef int fd_t;
-typedef fd_t sock_t;
-
 enum ftp_reply_code {
     RPL_SERVICE_WAIT = 120,
     RPL_TRANSFER_STARTING = 125,
@@ -53,9 +50,19 @@ enum ftp_reply_code {
     RPL_NEED_ACCOUNT = 332
 };
 
+typedef int fd_t;
+
+typedef struct socket {
+    fd_t fd;
+    struct sockaddr_in addr;
+    socklen_t len;
+} sock_t;
+
+sock_t *socket_create(void);
+
 typedef struct server {
     bool is_running;
-    fd_t fd;
+    sock_t *sock;
     fd_set active_fds;
     fd_set read_fds;
 } server_t;
