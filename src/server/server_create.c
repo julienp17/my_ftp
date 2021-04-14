@@ -19,6 +19,9 @@ server_t *server_create(in_port_t port)
     server->sock = create_server_socket(port);
     if (server->sock == NULL)
         return NULL;
+    server->cmds = get_cmds();
+    if (server->cmds == NULL)
+        return NULL;
     FD_ZERO(&server->active_fds);
     FD_ZERO(&server->read_fds);
     FD_SET(server->sock->fd, &server->active_fds);

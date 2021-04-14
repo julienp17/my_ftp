@@ -24,6 +24,8 @@
 #include <netinet/in.h>
 #include <arpa/inet.h>
 
+#include "cmds.h"
+
 #define MAX_LISTEN      5
 #define MAX_MSG_LEN     1024
 #define BUF_SIZE        1024
@@ -63,15 +65,10 @@ sock_t *socket_create(void);
 typedef struct server {
     bool is_running;
     sock_t *sock;
+    cmd_t **cmds;
     fd_set active_fds;
     fd_set read_fds;
 } server_t;
-
-typedef struct command {
-    char *name;
-    char *arg;
-    char *descr;
-} cmd_t;
 
 server_t *server_create(in_port_t port);
 int server_run(server_t *server);
