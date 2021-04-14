@@ -28,12 +28,14 @@ static int handle_input(server_t *server, fd_t client_fd)
     // TODO: read one by one
     bytes = read(client_fd, buf, BUF_SIZE);
     FD_CLR(client_fd, &(server->read_fds));
-    if (bytes == -1)
+    if (bytes == -1) {
         handle_err_int("read");
-    else if (client_disconnected(bytes))
+    } else if (client_disconnected(bytes)) {
         clear_client(server, client_fd);
-    else
+    } else {
+        buf[(int)(strchr(buf, '\n') - buf)] = 0;
         handle_cmd(server, buf);
+    }
     return 0;
 }
 

@@ -67,6 +67,12 @@ typedef struct server {
     fd_set read_fds;
 } server_t;
 
+typedef struct command {
+    char *name;
+    char *arg;
+    char *descr;
+} cmd_t;
+
 server_t *server_create(in_port_t port);
 int server_run(server_t *server);
 void server_destroy(server_t *server);
