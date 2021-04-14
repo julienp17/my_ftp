@@ -14,7 +14,7 @@ int main(int ac, char **av)
     int status = 0;
 
     if (ac != 2) {
-        fprintf(stderr, "Usage: myftp <PORT NUMBER>\n");
+        fprintf(stderr, USAGE);
         return EXIT_FAILURE;
     }
     port = htons(atoi(av[1]));

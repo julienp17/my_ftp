@@ -27,6 +27,7 @@
 #define MAX_LISTEN      5
 #define MAX_MSG_LEN     1024
 #define BUF_SIZE        1024
+#define USAGE           "Usage: myftp <PORT NUMBER>\n"
 #define handle_err_int(msg) \
     do { perror(msg); return -1; } while (0)
 #define handle_err_null(msg) \
@@ -62,6 +63,10 @@ typedef struct server {
 server_t *server_create(in_port_t port);
 int server_run(server_t *server);
 void server_destroy(server_t *server);
+
+int accept_client(server_t *server);
+int handle_inputs(server_t *server);
+int handle_cmd(server_t *server, char *cmd);
 
 
 #endif /* !MY_FTP_H_ */
