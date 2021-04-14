@@ -16,7 +16,8 @@ int accept_client(server_t *server)
     if (client->fd == -1)
         handle_err_int("accept");
     printf("Connection from %s:%d\n", inet_ntoa(client->addr.sin_addr),
-                                                ntohs(client->addr.sin_port));
+                                    ntohs(client->addr.sin_port));
+    send_reply(client->fd, RPL_SERVICE_READY, "Service Ready");
     FD_SET(client->fd, &(server->active_fds));
     free(client); // temporary
     return 0;

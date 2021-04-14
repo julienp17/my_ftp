@@ -8,7 +8,7 @@
 #include "cmds.h"
 #include "my_ftp.h"
 
-int handle_cmd(server_t *server, char *cmd_line)
+int handle_cmd(server_t *server, fd_t client, char *cmd_line)
 {
     char *name = strtok(cmd_line, " "); // call my_clean_str and to_lower
     char *arg = NULL;
@@ -31,6 +31,6 @@ int handle_cmd(server_t *server, char *cmd_line)
     if (cmd->func == NULL)
         fprintf(stderr, "Command %s not implemented yet\n", cmd->name);
     else
-        cmd->func(server, arg);
+        cmd->func(server, client, arg);
     return 0;
 }

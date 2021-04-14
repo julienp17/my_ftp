@@ -15,8 +15,9 @@
 #define handle_err_null(msg) \
     do { perror(msg); return NULL; } while (0)
 
+typedef int fd_t;
 typedef struct server server_t;
-typedef int (*cmd_func)(server_t *server, char *arg);
+typedef int (*cmd_func)(server_t *server, fd_t client_fd, char *arg);
 
 typedef struct command {
     char *name;
@@ -26,6 +27,6 @@ typedef struct command {
 
 cmd_t **get_cmds(void);
 cmd_t *get_cmd(cmd_t **commands, const char *cmd_name);
-int cmd_help(server_t *server, char *arg);
+int cmd_help(server_t *server, fd_t client_fd, char *arg);
 
 #endif /* !CMDS_H_ */

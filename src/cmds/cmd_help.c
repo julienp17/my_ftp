@@ -7,26 +7,25 @@
 
 #include "my_ftp.h"
 
-static void list_cmds(cmd_t **cmds);
+static void list_cmds( fd_t client_fd, cmd_t **cmds);
 
-int cmd_help(server_t *server, char *arg)
+int cmd_help(server_t *server, fd_t client_fd, char *arg)
 {
     cmd_t *cmd = NULL;
 
     if (arg == NULL) {
-        list_cmds(server->cmds);
+        list_cmds(client_fd, server->cmds);
     } else {
         cmd = get_cmd(server->cmds, arg);
-        if (cmd) {
-            printf("\t%s: %s\n", cmd->name, cmd->descr);
-        }
+        if (cmd)
+            send_client(client_fd, "%8s: %s\n", cmd->name, cmd->descr);
     }
     return 0;
 }
 
-static void list_cmds(cmd_t **cmds)
+static void list_cmds(fd_t client_fd, cmd_t **cmds)
 {
-    printf("%d-The following commands are recognized.\n", RPL_HELP_MSG);
+    send_reply(client_fd, RPL_HELP_MSG, "The following commands are recognized.");
     for (size_t i = 0 ; cmds[i] ; i++)
-        printf("    %4s: %s\n", cmds[i]->name, cmds[i]->descr);
+        send_client(client_fd, "%8s: %s", cmds[i]->name, cmds[i]->descr);
 }

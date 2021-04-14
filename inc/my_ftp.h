@@ -35,7 +35,7 @@
 #define handle_err_null(msg) \
     do { perror(msg); return NULL; } while (0)
 
-enum ftp_reply_code {
+typedef enum ftp_reply_code {
     RPL_SERVICE_WAIT = 120,
     RPL_TRANSFER_STARTING = 125,
     RPL_FILE_READY = 150,
@@ -50,7 +50,7 @@ enum ftp_reply_code {
     RPL_PATHNAME_CREATED = 257,
     RPL_USERNAME_OK = 331,
     RPL_NEED_ACCOUNT = 332
-};
+} ftp_reply_code;
 
 typedef int fd_t;
 
@@ -75,8 +75,33 @@ int server_run(server_t *server);
 void server_destroy(server_t *server);
 
 int accept_client(server_t *server);
+
+/**
+ * @brief Send a Command Reply Sequence to a client
+ *
+ * Same as send_client(client_fd, "%d %s", code, line);
+ *
+ * @param client_fd The client to send the message to
+ * @param code The 3-digit reply code
+ * @param line Line of text explaining the reply
+ * @return ssize_t The number of bytes written to the client
+ */
+ssize_t send_reply(fd_t client_fd, ftp_reply_code code, const char *line);
+
+/**
+ * @brief Send a message to the client
+ *
+ * Automatically adds CRLF to the end of the string.
+ *
+ * @param client_fd The client to send the message to
+ * @param fmt Format of the string to send
+ * @param ... Format arguments
+ * @return ssize_t The number of bytes written to the client
+ */
+ssize_t send_client(fd_t client_fd, const char *fmt, ...);
+
 int handle_inputs(server_t *server);
-int handle_cmd(server_t *server, char *cmd);
+int handle_cmd(server_t *server, fd_t client_fd, char *cmd);
 
 
 #endif /* !MY_FTP_H_ */
