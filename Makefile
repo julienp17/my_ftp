@@ -34,7 +34,7 @@ CFLAGS		=	-W -Wall -Wextra -Werror $(INC) $(LDFLAGS)
 
 INC			=	-I./inc
 
-LDFLAGS		=
+LDFLAGS		=	-L./lib/ -lmy
 
 LDFLAGS_UT  =	-lcriterion --coverage
 
@@ -47,12 +47,15 @@ UT_BIN		=	unit_tests
 all: $(BIN)
 
 .PHONY: all
-$(BIN): $(OBJ_M) $(OBJ)
-	$(CC) $(CFLAGS) -o $(BIN) $(OBJ_M) $(OBJ)
+$(BIN): makelib $(OBJ_M) $(OBJ)
+	$(CC) $(CFLAGS) -o $(BIN) $(OBJ_M) $(OBJ) $(LDFLAGS)
+
+makelib:
+	make -C ./lib/my/ all
 
 .PHONY: debug
 debug: $(OBJ_M) $(OBJ)
-	$(CC) $(CFLAGS) $(DBFLAGS) -o $(BIN) $(OBJ_M) $(OBJ)
+	$(CC) $(CFLAGS) $(DBFLAGS) -o $(BIN) $(OBJ_M) $(OBJ) $(LDFLAGS)
 
 .PHONY: tests_run
 tests_run: clean $(OBJ) $(UT_OBJ)

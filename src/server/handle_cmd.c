@@ -5,12 +5,12 @@
 ** handle_cmds
 */
 
-#include "cmds.h"
 #include "my_ftp.h"
+#include "my.h"
 
 int handle_cmd(server_t *server, fd_t client, char *cmd_line)
 {
-    char *name = strtok(cmd_line, " "); // call my_clean_str and to_lower
+    char *name = strtok(cmd_line, " ");
     char *arg = NULL;
     cmd_t *cmd = NULL;
 
@@ -23,7 +23,7 @@ int handle_cmd(server_t *server, fd_t client, char *cmd_line)
         fprintf(stderr, "Extra token found\n");
         return -1;
     }
-    cmd = get_cmd(server->cmds, name);
+    cmd = get_cmd(server->cmds, my_str_toupper(name));
     if (cmd == NULL) {
         fprintf(stderr, "Unknown command\n");
         return -1;
