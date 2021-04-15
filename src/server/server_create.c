@@ -35,7 +35,7 @@ static bool path_is_correct(const char *path)
         return false;
     }
     if (!S_ISDIR(file_stat.st_mode)) {
-        fprintf(stderr, "my_ftp: \"%s\" is not a directory\n", path);
+        server_log("my_ftp: \"%s\" is not a directory\n", path);
         return false;
     }
     return true;

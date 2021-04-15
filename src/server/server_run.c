@@ -12,7 +12,7 @@ static bool new_connection_requested(server_t *server);
 
 int server_run(server_t *server)
 {
-    printf("Listening on port %d...\n", ntohs(server->addr.sin_port));
+    server_log("Listening on port %d...\n", ntohs(server->addr.sin_port));
     while (1)
         server_loop(server);
     return 0;

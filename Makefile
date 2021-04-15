@@ -18,6 +18,7 @@ SRC_F		=	client/client_create.c \
 				server/server_create.c \
 				server/server_run.c \
 				server/server_destroy.c \
+				server/log.c \
 				server/accept_client.c \
 				server/add_client.c \
 				server/remove_client.c \
@@ -28,6 +29,7 @@ SRC_F		=	client/client_create.c \
 				server/cmds/cmd_user.c \
 				server/cmds/cmd_pass.c \
 				server/cmds/cmd_quit.c \
+				server/cmds/cmd_pwd.c \
 				server/cmds/cmd_help.c \
 				server/cmds/cmd_noop.c \
 

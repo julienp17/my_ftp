@@ -20,7 +20,6 @@ void remove_client(server_t *server, client_t *client)
         previous->next = previous->next->next;
     }
     FD_CLR(client->fd, &(server->active_fds));
-    fprintf(stderr, "Disconnection from %s:%d\n",
-            inet_ntoa(client->addr.sin_addr), ntohs(client->addr.sin_port));
+    log_client("Disconnection", client);
     client_destroy(client);
 }

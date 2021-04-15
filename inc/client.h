@@ -11,6 +11,8 @@
 #include <netinet/in.h>
 #include <arpa/inet.h>
 
+#include <stdarg.h>
+
 typedef int fd_t;
 typedef struct sockaddr_in addr_t;
 
@@ -28,6 +30,8 @@ typedef struct client {
 
 client_t *client_create(void);
 void client_destroy(client_t *client);
+
+int log_client(const char *prefix, const client_t *client);
 
 
 #endif /* !CLIENT_H_ */

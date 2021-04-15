@@ -6,8 +6,10 @@
 */
 
 #include "my_ftp.h"
+#include "my.h"
 
 static int handle_input(server_t *server, client_t *client);
+static int handle_cmd_line(server_t *server, client_t *client, char *cmd_line);
 static bool client_disconnected(const ssize_t read_bytes);
 
 int handle_inputs(server_t *server)
@@ -32,8 +34,9 @@ static int handle_input(server_t *server, client_t *client)
         remove_client(server, client);
     } else {
         buf[strlen(buf) - 1] = 0;
-        fprintf(stderr, "Received: \"%s\"\n", buf);
-        handle_cmd(server, client, buf);
+        log_client("Received", client);
+        server_log("[%s]\n", buf);
+        handle_cmd_line(server, client, buf);
     }
     return 0;
 }
@@ -41,4 +44,22 @@ static int handle_input(server_t *server, client_t *client)
 static bool client_disconnected(const ssize_t bytes_read)
 {
     return bytes_read == 0;
+}
+
+static int handle_cmd_line(server_t *server, client_t *client, char *cmd_line)
+{
+    char *name = strtok(cmd_line, " ");
+    char *arg = strtok(NULL, " ");
+    cmd_t *cmd = NULL;
+
+    if (name == NULL) {
+        server_log("No input\n");
+        return 0;
+    }
+    cmd = get_cmd(server->cmds, my_str_toupper(name));
+    if (cmd == NULL) {
+        send_reply(client->fd, RPL_UNKNOWN_COMMAND, "Unknown command.");
+        return -1;
+    }
+    return handle_cmd(server, client, cmd, arg);
 }

@@ -7,8 +7,6 @@
 
 #include "my_ftp.h"
 
-static void log_connection(const client_t *client);
-
 int accept_client(server_t *server)
 {
     client_t *client = client_create();
@@ -19,12 +17,6 @@ int accept_client(server_t *server)
         handle_err_int("accept");
     add_client(server, client);
     send_reply(client->fd, RPL_SERVICE_READY, "(my_ftp) Service ready");
-    log_connection(client);
+    log_client("Connection", client);
     return 0;
-}
-
-static void log_connection(const client_t *client)
-{
-    fprintf(stderr, "Connection from %s:%d\n",
-            inet_ntoa(client->addr.sin_addr), ntohs(client->addr.sin_port));
 }

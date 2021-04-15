@@ -37,7 +37,6 @@
 "       port  is the port number on which the server socket listens\n" \
 "       path  is the path to the home directory for the Anonymous user\n"
 
-
 #define handle_err_int(msg) \
     do { perror(msg); return -1; } while (0)
 #define handle_err_null(msg) \
@@ -60,6 +59,7 @@ typedef struct server {
 server_t *server_create(const in_port_t port, const char *path);
 int server_run(server_t *server);
 void server_destroy(server_t *server);
+int server_log(const char *fmt, ...);
 
 /**
  * @brief Accept a client
@@ -123,7 +123,18 @@ ssize_t send_str(fd_t client_fd, const char *fmt, ...);
  * @return 0 on success, -1 on error
  */
 int handle_inputs(server_t *server);
-int handle_cmd(server_t *server, client_t *client, char *cmd);
+
+/**
+ * @brief Determines the logic for handling commands
+ *
+ * @param server The server on which the commands are launched
+ * @param client The client that requested the command
+ * @param cmd The requested command
+ * @param arg The (optionnal) command argument
+ * @return reply_code The reply_code of the launched command
+ */
+reply_code handle_cmd(server_t *server, client_t *client,
+                    cmd_t *cmd, char *arg);
 
 
 #endif /* !MY_FTP_H_ */

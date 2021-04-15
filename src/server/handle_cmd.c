@@ -8,29 +8,56 @@
 #include "my_ftp.h"
 #include "my.h"
 
-int handle_cmd(server_t *server, client_t *client, char *cmd_line)
-{
-    char *name = strtok(cmd_line, " ");
-    char *arg = NULL;
-    cmd_t *cmd = NULL;
+static bool is_login_cmd(const char *cmd_name);
+static bool is_data_transfer_cmd(const char *cmd_name);
+static int fork_data_transfer(server_t *server, client_t *client,
+                                cmd_t *cmd, char *arg);
 
-    if (name == NULL) {
-        fprintf(stderr, "No input\n");
-        return 0;
-    }
-    arg = strtok(NULL, " ");
-    if (arg != NULL && strtok(NULL, " ") != NULL) {
-        fprintf(stderr, "Extra token found\n");
+reply_code handle_cmd(server_t *server, client_t *client, cmd_t *cmd, char *arg)
+{
+    reply_code code = 0;
+
+    if (cmd->func == NULL) { // temporary
+        server_log("Command %s not implemented yet\n", cmd->name);
         return -1;
     }
-    cmd = get_cmd(server->cmds, my_str_toupper(name));
-    if (cmd == NULL) {
-        fprintf(stderr, "Unknown command\n");
-        return -1;
+    if (client->auth != LOGGED_IN && !is_login_cmd(cmd->name)) {
+        code = RPL_NOT_LOGGED_IN;
+        send_reply(client->fd, code, "Please login with USER and PASS.");
+        return code;
     }
-    if (cmd->func == NULL)
-        fprintf(stderr, "Command %s not implemented yet\n", cmd->name);
-    else
-        cmd->func(server, client, arg);
+    if (is_data_transfer_cmd(cmd->name))
+        return fork_data_transfer(server, client, cmd, arg);
+    code = cmd->func(server, client, arg);
+    return code;
+}
+
+static bool is_login_cmd(const char *cmd_name)
+{
+    return (
+        strcmp(cmd_name, "USER") == 0
+        || strcmp(cmd_name, "PASS") == 0
+        || strcmp(cmd_name, "HELP") == 0
+    );
+}
+
+static bool is_data_transfer_cmd(const char *cmd_name)
+{
+    return (
+        strcmp(cmd_name, "RETR") == 0
+        || strcmp(cmd_name, "STOR") == 0
+        || strcmp(cmd_name, "LIST") == 0
+    );
+}
+
+static int fork_data_transfer(server_t *server, client_t *client,
+                            cmd_t *cmd, char *arg)
+{
+    pid_t pid = fork();
+
+    if (pid == -1)
+        handle_err_int("fork");
+    else if (pid == 0)
+        _exit(cmd->func(server, client, arg));
     return 0;
 }
