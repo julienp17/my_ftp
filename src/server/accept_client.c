@@ -19,7 +19,7 @@ int accept_client(server_t *server)
     if (client->fd == -1)
         handle_err_int("accept");
     add_client(server, client);
-    send_reply(client->fd, RPL_SERVICE_READY, "Service ready");
+    send_reply(client->fd, RPL_SERVICE_READY, "(my_ftp) Service ready");
     log_connection(client);
     return 0;
 }

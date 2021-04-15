@@ -25,50 +25,21 @@
 #include <arpa/inet.h>
 
 #include "cmds.h"
+#include "client.h"
 
 #define MAX_LISTEN      5
 #define MAX_MSG_LEN     1024
 #define BUF_SIZE        1024
+#define DEFAULT_USER    "Anonymous"
 #define USAGE           "Usage: myftp <PORT NUMBER>\n"
 #define handle_err_int(msg) \
     do { perror(msg); return -1; } while (0)
 #define handle_err_null(msg) \
     do { perror(msg); return NULL; } while (0)
 
-typedef enum reply_code {
-    RPL_SERVICE_WAIT = 120,
-    RPL_TRANSFER_STARTING = 125,
-    RPL_FILE_READY = 150,
-    RPL_CMD_OK = 200,
-    RPL_HELP_MSG = 214,
-    RPL_SERVICE_READY = 220,
-    RPL_SERVICE_CLOSING = 221,
-    RPL_FILE_ACTION_SUCCESSFUL = 226,
-    RPL_PASSIVE_MODE = 227,
-    RPL_LOGGED_IN = 230,
-    RPL_FILE_ACTION_COMPLETED = 250,
-    RPL_PATHNAME_CREATED = 257,
-    RPL_USERNAME_OK = 331,
-    RPL_NEED_ACCOUNT = 332
-} reply_code;
-
 typedef int fd_t;
 typedef fd_t sock_t;
 typedef struct sockaddr_in addr_t;
-
-typedef struct client {
-    fd_t fd;
-    addr_t addr;
-    enum auth {
-        NO_CREDENTIALS,
-        USERNAME_ENTERED,
-        LOGGED_IN
-    } auth;
-    struct client *next;
-} client_t;
-
-client_t *client_create(void);
-void client_destroy(client_t *client);
 
 typedef struct server {
     fd_t fd;
@@ -96,9 +67,9 @@ int accept_client(server_t *server);
 /**
  * @brief Send a Command Reply Sequence to a client
  *
- * Same as send_client(client_fd, "%d %s", code, line);
+ * Same as send_str(client_fd, "%d %s", code, line);
  *
- * @param client_fd The client to send the message to
+ * @param client_fd The file descriptor of the client to send the message to
  * @param code The 3-digit reply code
  * @param line Line of text explaining the reply
  * @return ssize_t The number of bytes written to the client
@@ -110,12 +81,12 @@ ssize_t send_reply(fd_t client_fd, reply_code code, const char *line);
  *
  * Automatically adds CRLF to the end of the string.
  *
- * @param client_fd The client to send the message to
+ * @param client_fd The file descriptor of the client to send the message to
  * @param fmt Format of the string to send
  * @param ... Format arguments
  * @return ssize_t The number of bytes written to the client
  */
-ssize_t send_client(fd_t client_fd, const char *fmt, ...);
+ssize_t send_str(fd_t client_fd, const char *fmt, ...);
 
 /**
  * @brief Handle the inputs received by the server
@@ -124,7 +95,7 @@ ssize_t send_client(fd_t client_fd, const char *fmt, ...);
  * @return 0 on success, -1 on error
  */
 int handle_inputs(server_t *server);
-int handle_cmd(server_t *server, fd_t client_fd, char *cmd);
+int handle_cmd(server_t *server, client_t *client, char *cmd);
 
 
 #endif /* !MY_FTP_H_ */

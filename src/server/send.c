@@ -2,17 +2,17 @@
 ** EPITECH PROJECT, 2021
 ** myftp [WSL: Ubuntu-20.04]
 ** File description:
-** send_client
+** send_str
 */
 
 #include "my_ftp.h"
 
 ssize_t send_reply(fd_t client_fd, reply_code code, const char *line)
 {
-    return send_client(client_fd, "%d %s", code, line);
+    return send_str(client_fd, "%d %s", code, line);
 }
 
-ssize_t send_client(fd_t client_fd, const char *fmt, ...)
+ssize_t send_str(fd_t client_fd, const char *fmt, ...)
 {
     char buf[BUF_SIZE] = "\0";
     size_t len = 0;

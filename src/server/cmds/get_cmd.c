@@ -10,8 +10,8 @@
 cmd_t **get_cmds(void)
 {
     cmd_t cmds_tab[] = {
-        {"USER", "Specify user for authentification", NULL},
-        {"PASS", "Specify password for authentication", NULL},
+        {"USER", "Specify user for authentification", &cmd_user},
+        {"PASS", "Specify password for authentication", &cmd_pass},
         {"CWD", "Change working directory", NULL},
         {"CDUP", "Change working directory to parent directory", NULL},
         {"QUIT", "Disconnection", NULL},
@@ -20,7 +20,7 @@ cmd_t **get_cmds(void)
         {"PASV", "Enable \"passive\" mode for data transfer", NULL},
         {"PORT", "Enable \"active\" mode for data transfer", NULL},
         {"HELP", "List available commands", &cmd_help},
-        {"NOOP", "Do nothing", NULL},
+        {"NOOP", "Do nothing", &cmd_noop},
         {"RETR", "Download file from server to client", NULL},
         {"STOR", "Upload file from client to server", NULL},
         {"LIST", "List files in the current working directory", NULL},

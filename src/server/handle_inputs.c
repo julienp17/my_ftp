@@ -34,7 +34,7 @@ static int handle_input(server_t *server, client_t *client)
     } else {
         buf[strlen(buf) - 1] = 0;
         printf("Received: [%s]\n", buf);
-        handle_cmd(server, client->fd, buf);
+        handle_cmd(server, client, buf);
     }
     return 0;
 }

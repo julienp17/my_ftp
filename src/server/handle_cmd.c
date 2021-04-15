@@ -8,7 +8,7 @@
 #include "my_ftp.h"
 #include "my.h"
 
-int handle_cmd(server_t *server, fd_t client, char *cmd_line)
+int handle_cmd(server_t *server, client_t *client, char *cmd_line)
 {
     char *name = strtok(cmd_line, " ");
     char *arg = NULL;

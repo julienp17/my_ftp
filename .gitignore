@@ -1,3 +1,4 @@
 myftp
 *.o
 a.out
+unit_tests

@@ -12,12 +12,32 @@
 #include <string.h>
 #include <stdlib.h>
 
+#include "client.h"
+
 #define handle_err_null(msg) \
     do { perror(msg); return NULL; } while (0)
 
-typedef int fd_t;
 typedef struct server server_t;
-typedef int (*cmd_func)(server_t *server, fd_t client_fd, char *arg);
+typedef int (*cmd_func)(server_t *server, client_t *client, char *arg);
+
+typedef enum reply_code {
+    RPL_SERVICE_WAIT = 120,
+    RPL_TRANSFER_STARTING = 125,
+    RPL_FILE_READY = 150,
+    RPL_CMD_OK = 200,
+    RPL_HELP_MSG = 214,
+    RPL_SERVICE_READY = 220,
+    RPL_SERVICE_CLOSING = 221,
+    RPL_FILE_ACTION_SUCCESSFUL = 226,
+    RPL_PASSIVE_MODE = 227,
+    RPL_LOGGED_IN = 230,
+    RPL_FILE_ACTION_COMPLETED = 250,
+    RPL_PATHNAME_CREATED = 257,
+    RPL_USERNAME_OK = 331,
+    RPL_NEED_ACCOUNT = 332,
+    RPL_BAD_SEQUENCE = 503,
+    RPL_NOT_LOGGED_IN = 530
+} reply_code;
 
 typedef struct command {
     char *name;
@@ -27,6 +47,9 @@ typedef struct command {
 
 cmd_t **get_cmds(void);
 cmd_t *get_cmd(cmd_t **commands, const char *cmd_name);
-int cmd_help(server_t *server, fd_t client_fd, char *arg);
+int cmd_user(server_t *server, client_t *client, char *arg);
+int cmd_pass(server_t *server, client_t *client, char *arg);
+int cmd_help(server_t *server, client_t *client, char *arg);
+int cmd_noop(server_t *server, client_t *client, char *arg);
 
 #endif /* !CMDS_H_ */

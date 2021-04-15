@@ -13,22 +13,26 @@ OBJ_M		=	$(MAIN:.c=.o)
 SRC			=	$(addprefix $(SRC_D), $(SRC_F))
 OBJ			=	$(SRC:.c=.o)
 SRC_D		=	src/
-SRC_F		=	server/server_create.c \
+SRC_F		=	client/client_create.c \
+				client/client_destroy.c \
+				server/server_create.c \
 				server/server_run.c \
 				server/server_destroy.c \
 				server/accept_client.c \
-				server/send_client.c \
+				server/send.c \
 				server/handle_inputs.c \
 				server/handle_cmd.c \
-				cmds/get_cmd.c \
-				cmds/cmd_help.c \
-				client/client_create.c \
-				client/client_destroy.c
+				server/cmds/get_cmd.c \
+				server/cmds/cmd_user.c \
+				server/cmds/cmd_pass.c \
+				server/cmds/cmd_help.c \
+				server/cmds/cmd_noop.c \
 
 UT_SRC		=	$(addprefix $(UT_SRC_D), $(UT_SRC_F))
 UT_OBJ		=	$(UT_SRC:.c=.o)
 UT_SRC_D	=	tests/
-UT_SRC_F	=
+UT_SRC_F	=	test_cmd_user.c \
+				test_cmd_pass.c
 
 CFLAGS		=	-W -Wall -Wextra -Werror $(INC) $(LDFLAGS)
 
@@ -59,7 +63,7 @@ debug: $(OBJ_M) $(OBJ)
 
 .PHONY: tests_run
 tests_run: clean $(OBJ) $(UT_OBJ)
-	$(CC) $(CFLAGS) $(LDFLAGS_UT) -o $(UT_BIN) $(OBJ) $(UT_OBJ)
+	$(CC) $(CFLAGS) $(LDFLAGS_UT) -o $(UT_BIN) $(OBJ) $(UT_OBJ) $(LDFLAGS)
 	./$(UT_BIN)
 
 .PHONY: functional_tests
