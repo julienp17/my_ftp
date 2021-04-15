@@ -14,7 +14,7 @@ cmd_t **get_cmds(void)
         {"PASS", "Specify password for authentication", &cmd_pass},
         {"CWD", "Change working directory", NULL},
         {"CDUP", "Change working directory to parent directory", NULL},
-        {"QUIT", "Disconnection", NULL},
+        {"QUIT", "Disconnection", &cmd_quit},
         {"DELE", "Delete file on the server", NULL},
         {"PWD", "Print working directory", NULL},
         {"PASV", "Enable \"passive\" mode for data transfer", NULL},

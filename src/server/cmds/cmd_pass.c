@@ -9,7 +9,7 @@
 
 static reply_code decide_login(client_t *client);
 
-int cmd_pass(server_t *server, client_t *client, char *arg)
+reply_code cmd_pass(server_t *server, client_t *client, char *arg)
 {
     reply_code code = 0;
 

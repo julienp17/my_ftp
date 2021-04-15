@@ -65,6 +65,17 @@ void server_destroy(server_t *server);
 int accept_client(server_t *server);
 
 /**
+ * @brief Remove a client
+ *
+ * Remove the client from the server's linked list and active fdset,
+ * log disconnection, and call client_destroy.
+ *
+ * @param server The server removing the client
+ * @param client The client to remove
+ */
+void remove_client(server_t *server, client_t *client);
+
+/**
  * @brief Send a Command Reply Sequence to a client
  *
  * Same as send_str(client_fd, "%d %s", code, line);

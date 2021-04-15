@@ -19,12 +19,14 @@ SRC_F		=	client/client_create.c \
 				server/server_run.c \
 				server/server_destroy.c \
 				server/accept_client.c \
+				server/remove_client.c \
 				server/send.c \
 				server/handle_inputs.c \
 				server/handle_cmd.c \
 				server/cmds/get_cmd.c \
 				server/cmds/cmd_user.c \
 				server/cmds/cmd_pass.c \
+				server/cmds/cmd_quit.c \
 				server/cmds/cmd_help.c \
 				server/cmds/cmd_noop.c \
 

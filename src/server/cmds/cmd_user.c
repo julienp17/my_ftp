@@ -7,7 +7,7 @@
 
 #include "my_ftp.h"
 
-int cmd_user(server_t *server, client_t *client, char *arg)
+reply_code cmd_user(server_t *server, client_t *client, char *arg)
 {
     reply_code code = 0;
 

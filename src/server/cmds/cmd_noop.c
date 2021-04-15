@@ -8,10 +8,12 @@
 #include "my_ftp.h"
 #include "cmds.h"
 
-int cmd_noop(server_t *server, client_t *client, char *arg)
+reply_code cmd_noop(server_t *server, client_t *client, char *arg)
 {
+    reply_code code = RPL_CMD_OK;
+
     (void)server;
     (void)arg;
-    send_reply(client->fd, RPL_CMD_OK, "NOOP ok.");
-    return RPL_CMD_OK;
+    send_reply(client->fd, code, "NOOP ok.");
+    return code;
 }

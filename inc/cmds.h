@@ -17,9 +17,6 @@
 #define handle_err_null(msg) \
     do { perror(msg); return NULL; } while (0)
 
-typedef struct server server_t;
-typedef int (*cmd_func)(server_t *server, client_t *client, char *arg);
-
 typedef enum reply_code {
     RPL_SERVICE_WAIT = 120,
     RPL_TRANSFER_STARTING = 125,
@@ -39,6 +36,9 @@ typedef enum reply_code {
     RPL_NOT_LOGGED_IN = 530
 } reply_code;
 
+typedef struct server server_t;
+typedef reply_code (*cmd_func)(server_t *server, client_t *client, char *arg);
+
 typedef struct command {
     char *name;
     char *descr;
@@ -47,9 +47,10 @@ typedef struct command {
 
 cmd_t **get_cmds(void);
 cmd_t *get_cmd(cmd_t **commands, const char *cmd_name);
-int cmd_user(server_t *server, client_t *client, char *arg);
-int cmd_pass(server_t *server, client_t *client, char *arg);
-int cmd_help(server_t *server, client_t *client, char *arg);
-int cmd_noop(server_t *server, client_t *client, char *arg);
+reply_code cmd_user(server_t *server, client_t *client, char *arg);
+reply_code cmd_pass(server_t *server, client_t *client, char *arg);
+reply_code cmd_quit(server_t *server, client_t *client, char *arg);
+reply_code cmd_help(server_t *server, client_t *client, char *arg);
+reply_code cmd_noop(server_t *server, client_t *client, char *arg);
 
 #endif /* !CMDS_H_ */
