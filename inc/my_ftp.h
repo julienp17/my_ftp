@@ -20,6 +20,7 @@
 #include <sys/socket.h>
 #include <sys/time.h>
 #include <sys/types.h>
+#include <sys/stat.h>
 
 #include <netinet/in.h>
 #include <arpa/inet.h>
@@ -31,7 +32,12 @@
 #define MAX_MSG_LEN     1024
 #define BUF_SIZE        1024
 #define DEFAULT_USER    "Anonymous"
-#define USAGE           "Usage: myftp <PORT NUMBER>\n"
+#define USAGE           \
+"Usage: myftp port path\n" \
+"       port  is the port number on which the server socket listens\n" \
+"       path  is the path to the home directory for the Anonymous user\n"
+
+
 #define handle_err_int(msg) \
     do { perror(msg); return -1; } while (0)
 #define handle_err_null(msg) \
@@ -44,25 +50,36 @@ typedef struct sockaddr_in addr_t;
 typedef struct server {
     fd_t fd;
     addr_t addr;
+    char *path;
     client_t *client;
     fd_set active_fds;
     fd_set read_fds;
     cmd_t **cmds;
 } server_t;
 
-server_t *server_create(in_port_t port);
+server_t *server_create(const in_port_t port, const char *path);
 int server_run(server_t *server);
 void server_destroy(server_t *server);
 
 /**
  * @brief Accept a client
  *
- * Adds the client to the linked list, and add its file descriptor into
- * the active set
+ * Call the "accept" syscall, and then call the add_client function
+ *
  * @param server The server accepting the client
  * @return 0 if client was accepted, -1 otherwise
  */
 int accept_client(server_t *server);
+
+/**
+ * @brief Adds a client
+ *
+ * Adds the client into the server's linked list and active fdset
+ *
+ * @param server The server adding the client
+ * @param client The client to add
+ */
+void add_client(server_t *server, client_t *client);
 
 /**
  * @brief Remove a client

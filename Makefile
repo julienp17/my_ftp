@@ -19,6 +19,7 @@ SRC_F		=	client/client_create.c \
 				server/server_run.c \
 				server/server_destroy.c \
 				server/accept_client.c \
+				server/add_client.c \
 				server/remove_client.c \
 				server/send.c \
 				server/handle_inputs.c \
