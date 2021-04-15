@@ -15,7 +15,7 @@ int handle_inputs(server_t *server)
 {
     for (fd_t fd = 0 ; fd < FD_SETSIZE ; fd++)
         // TODO: implement linked list
-        if (FD_ISSET(fd, &(server->read_fds)) && fd != server->sock->fd)
+        if (FD_ISSET(fd, &(server->read_fds)) && fd != server->fd)
             handle_input(server, fd);
     return 0;
 }

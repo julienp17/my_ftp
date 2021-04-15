@@ -7,7 +7,7 @@
 
 #include "my_ftp.h"
 
-ssize_t send_reply(fd_t client_fd, ftp_reply_code code, const char *line)
+ssize_t send_reply(fd_t client_fd, reply_code code, const char *line)
 {
     return send_client(client_fd, "%d %s", code, line);
 }

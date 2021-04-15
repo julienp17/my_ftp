@@ -12,9 +12,8 @@ static bool new_connection_requested(server_t *server);
 
 int server_run(server_t *server)
 {
-    server->is_running = true;
-    printf("Listening on port %d...\n", ntohs(server->sock->addr.sin_port));
-    while (server->is_running)
+    printf("Listening on port %d...\n", ntohs(server->addr.sin_port));
+    while (1)
         server_loop(server);
     return 0;
 }
@@ -35,5 +34,5 @@ static int server_loop(server_t *server)
 
 static bool new_connection_requested(server_t *server)
 {
-    return FD_ISSET(server->sock->fd, &(server->read_fds));
+    return FD_ISSET(server->fd, &(server->read_fds));
 }

@@ -53,18 +53,12 @@ typedef enum reply_code {
 } reply_code;
 
 typedef int fd_t;
-
-typedef struct socket {
-    fd_t fd;
-    struct sockaddr_in addr;
-    socklen_t len;
-} sock_t;
-
-sock_t *socket_create(void);
-void socket_destroy(sock_t *sock);
+typedef fd_t sock_t;
+typedef struct sockaddr_in addr_t;
 
 typedef struct client {
-    sock_t *sock;
+    fd_t fd;
+    addr_t addr;
     enum auth {
         NO_CREDENTIALS,
         USERNAME_ENTERED,
@@ -77,8 +71,8 @@ client_t *client_create(void);
 void client_destroy(client_t *client);
 
 typedef struct server {
-    bool is_running;
-    sock_t *sock;
+    fd_t fd;
+    addr_t addr;
     client_t *client;
     fd_set active_fds;
     fd_set read_fds;
@@ -89,6 +83,14 @@ server_t *server_create(in_port_t port);
 int server_run(server_t *server);
 void server_destroy(server_t *server);
 
+/**
+ * @brief Accept a client
+ *
+ * Adds the client to the linked list, and add its file descriptor into
+ * the active set
+ * @param server The server accepting the client
+ * @return 0 if client was accepted, -1 otherwise
+ */
 int accept_client(server_t *server);
 
 /**
