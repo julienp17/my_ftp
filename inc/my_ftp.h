@@ -35,7 +35,7 @@
 #define handle_err_null(msg) \
     do { perror(msg); return NULL; } while (0)
 
-typedef enum ftp_reply_code {
+typedef enum reply_code {
     RPL_SERVICE_WAIT = 120,
     RPL_TRANSFER_STARTING = 125,
     RPL_FILE_READY = 150,
@@ -50,7 +50,7 @@ typedef enum ftp_reply_code {
     RPL_PATHNAME_CREATED = 257,
     RPL_USERNAME_OK = 331,
     RPL_NEED_ACCOUNT = 332
-} ftp_reply_code;
+} reply_code;
 
 typedef int fd_t;
 
@@ -61,13 +61,28 @@ typedef struct socket {
 } sock_t;
 
 sock_t *socket_create(void);
+void socket_destroy(sock_t *sock);
+
+typedef struct client {
+    sock_t *sock;
+    enum auth {
+        NO_CREDENTIALS,
+        USERNAME_ENTERED,
+        LOGGED_IN
+    } auth;
+    struct client *next;
+} client_t;
+
+client_t *client_create(void);
+void client_destroy(client_t *client);
 
 typedef struct server {
     bool is_running;
     sock_t *sock;
-    cmd_t **cmds;
+    client_t *client;
     fd_set active_fds;
     fd_set read_fds;
+    cmd_t **cmds;
 } server_t;
 
 server_t *server_create(in_port_t port);
@@ -86,7 +101,7 @@ int accept_client(server_t *server);
  * @param line Line of text explaining the reply
  * @return ssize_t The number of bytes written to the client
  */
-ssize_t send_reply(fd_t client_fd, ftp_reply_code code, const char *line);
+ssize_t send_reply(fd_t client_fd, reply_code code, const char *line);
 
 /**
  * @brief Send a message to the client
@@ -100,6 +115,12 @@ ssize_t send_reply(fd_t client_fd, ftp_reply_code code, const char *line);
  */
 ssize_t send_client(fd_t client_fd, const char *fmt, ...);
 
+/**
+ * @brief Handle the inputs received by the server
+ *
+ * @param server The server receiving the input
+ * @return 0 on success, -1 on error
+ */
 int handle_inputs(server_t *server);
 int handle_cmd(server_t *server, fd_t client_fd, char *cmd);
 
