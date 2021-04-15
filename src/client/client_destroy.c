@@ -9,7 +9,8 @@
 
 void client_destroy(client_t *client)
 {
-    if (client->fd != -1)
+    if (client->fd != -1) {
         close(client->fd);
+    }
     free(client);
 }

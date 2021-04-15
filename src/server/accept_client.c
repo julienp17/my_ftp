@@ -18,9 +18,9 @@ int accept_client(server_t *server)
     client->fd = accept(server->fd, (struct sockaddr *) &(client->addr), &len);
     if (client->fd == -1)
         handle_err_int("accept");
-    log_connection(client);
     add_client(server, client);
     send_reply(client->fd, RPL_SERVICE_READY, "Service ready");
+    log_connection(client);
     return 0;
 }
 
