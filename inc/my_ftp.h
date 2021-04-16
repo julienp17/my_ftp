@@ -28,10 +28,13 @@
 #include "cmds.h"
 #include "client.h"
 
-#define MAX_LISTEN      5
-#define MAX_MSG_LEN     1024
-#define BUF_SIZE        1024
-#define DEFAULT_USER    "Anonymous"
+#define MAX_LISTEN          5
+#define MAX_MSG_LEN         1024
+#define MIN_PORT            1024
+#define MIN_DYNAMIC_PORT    49152
+#define MAX_PORT            65535
+#define BUF_SIZE            1024
+#define DEFAULT_USER        "Anonymous"
 #define USAGE           \
 "Usage: myftp port path\n" \
 "       port  is the port number on which the server socket listens\n" \
@@ -60,6 +63,9 @@ server_t *server_create(const in_port_t port, const char *path);
 int server_run(server_t *server);
 void server_destroy(server_t *server);
 int server_log(const char *fmt, ...);
+
+addr_t create_tcp_addr(const in_port_t port);
+sock_t create_tcp_sock(const addr_t addr);
 
 /**
  * @brief Accept a client
