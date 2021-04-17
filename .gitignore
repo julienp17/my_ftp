@@ -2,3 +2,5 @@ myftp
 *.o
 a.out
 unit_tests
+EPITECH-MyFTP-Protocol-(RFC959-Extract).txt
+test_ftp.sh
