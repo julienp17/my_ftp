@@ -13,5 +13,7 @@ void client_destroy(client_t *client)
         free(client->username);
     if (client->fd != -1)
         close(client->fd);
+    if (client->data_fd != -1)
+        close(client->fd);
     free(client);
 }

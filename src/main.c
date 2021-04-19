@@ -20,7 +20,7 @@ int main(int ac, char **av)
         printf(USAGE);
         return EXIT_FAILURE;
     }
-    port = htons(atoi(av[1]));
+    port = atoi(av[1]);
     server = server_create(port, av[2]);
     if (server == NULL)
         return EXIT_FAILURE;

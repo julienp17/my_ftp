@@ -26,12 +26,14 @@ SRC_F		=	client/client_create.c \
 				server/send.c \
 				server/handle_inputs.c \
 				server/handle_cmd.c \
+				server/handle_data_cmd.c \
 				server/cmds/get_cmd.c \
 				server/cmds/cmd_user.c \
 				server/cmds/cmd_pass.c \
 				server/cmds/cmd_quit.c \
 				server/cmds/cmd_pwd.c \
 				server/cmds/cmd_help.c \
+				server/cmds/cmd_pasv.c \
 				server/cmds/cmd_noop.c \
 
 UT_SRC		=	$(addprefix $(UT_SRC_D), $(UT_SRC_F))

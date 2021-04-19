@@ -53,10 +53,15 @@ typedef struct server {
     fd_t fd;
     addr_t addr;
     char *path;
+    cmd_t **cmds;
     client_t *client;
     fd_set active_fds;
     fd_set read_fds;
-    cmd_t **cmds;
+    enum transfer_mode {
+        NONE,
+        PASSIVE,
+        ACTIVE
+    } mode;
 } server_t;
 
 server_t *server_create(const in_port_t port, const char *path);
@@ -140,6 +145,9 @@ int handle_inputs(server_t *server);
  * @return reply_code The reply_code of the launched command
  */
 reply_code handle_cmd(server_t *server, client_t *client,
+                    cmd_t *cmd, char *arg);
+
+reply_code handle_data_cmd(server_t *server, client_t *client,
                     cmd_t *cmd, char *arg);
 
 

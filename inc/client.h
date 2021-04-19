@@ -19,6 +19,8 @@ typedef struct sockaddr_in addr_t;
 typedef struct client {
     fd_t fd;
     addr_t addr;
+    fd_t data_fd;
+    addr_t data_addr;
     char *username;
     enum auth {
         NOT_LOGGED_IN,

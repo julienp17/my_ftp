@@ -53,6 +53,7 @@ static int fill_server(server_t *server, const in_port_t port, const char *path)
     if (server->cmds == NULL)
         return -1;
     server->client = NULL;
+    server->mode = NONE;
     FD_ZERO(&server->active_fds);
     FD_ZERO(&server->read_fds);
     FD_SET(server->fd, &server->active_fds);

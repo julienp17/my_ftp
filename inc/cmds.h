@@ -33,6 +33,7 @@ typedef enum reply_code {
     RPL_USERNAME_OK = 331,
     RPL_NEED_ACCOUNT = 332,
     RPL_SERVICE_NOT_AVAILABLE = 421,
+    RPL_CANNOT_OPEN_DATA_CONNECTION = 425,
     RPL_BAD_SEQUENCE = 503,
     RPL_UNKNOWN_COMMAND = 500,
     RPL_NOT_LOGGED_IN = 530
@@ -53,6 +54,7 @@ reply_code cmd_user(server_t *server, client_t *client, char *arg);
 reply_code cmd_pass(server_t *server, client_t *client, char *arg);
 reply_code cmd_quit(server_t *server, client_t *client, char *arg);
 reply_code  cmd_pwd(server_t *server, client_t *client, char *arg);
+reply_code cmd_pasv(server_t *server, client_t *client, char *arg);
 reply_code cmd_help(server_t *server, client_t *client, char *arg);
 reply_code cmd_noop(server_t *server, client_t *client, char *arg);
 

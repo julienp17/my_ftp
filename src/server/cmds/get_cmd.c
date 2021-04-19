@@ -17,7 +17,7 @@ cmd_t **get_cmds(void)
         {"QUIT", "Disconnection", &cmd_quit},
         {"DELE", "Delete file on the server", NULL},
         {"PWD", "Print working directory", &cmd_pwd},
-        {"PASV", "Enable \"passive\" mode for data transfer", NULL},
+        {"PASV", "Enable \"passive\" mode for data transfer", &cmd_pasv},
         {"PORT", "Enable \"active\" mode for data transfer", NULL},
         {"HELP", "List available commands", &cmd_help},
         {"NOOP", "Do nothing", &cmd_noop},

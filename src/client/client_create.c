@@ -15,6 +15,8 @@ client_t *client_create(void)
         handle_err_null("malloc");
     client->fd = -1;
     memset(&(client->addr), 0, sizeof(addr_t));
+    client->data_fd = -1;
+    memset(&(client->data_addr), 0, sizeof(addr_t));
     client->username = NULL;
     client->auth = NOT_LOGGED_IN;
     client->next = NULL;
