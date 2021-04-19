@@ -6,6 +6,7 @@
 */
 
 #include "my_ftp.h"
+#include "my.h"
 
 int main(int ac, char **av)
 {
@@ -16,7 +17,7 @@ int main(int ac, char **av)
     if (ac == 2 && strcmp(av[1], "-h") == 0) {
         printf(USAGE);
         return EXIT_SUCCESS;
-    } else if (ac != 3) {
+    } else if (ac != 3 || !my_str_isnum_pos(av[1])) {
         printf(USAGE);
         return EXIT_FAILURE;
     }

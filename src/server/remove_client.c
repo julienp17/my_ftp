@@ -20,6 +20,6 @@ void remove_client(server_t *server, client_t *client)
         previous->next = previous->next->next;
     }
     FD_CLR(client->fd, &(server->active_fds));
-    log_client("Disconnection", client);
+    server_log_addr("Disconnection from", client->fd);
     client_destroy(client);
 }

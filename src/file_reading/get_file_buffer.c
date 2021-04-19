@@ -15,8 +15,12 @@ char *get_file_buffer(char const *filepath)
 {
     int fd = 0;
     unsigned int file_size = get_file_size(filepath);
-    char *buffer = malloc(sizeof(char) * (file_size + 1));
+    char *buffer = NULL;
 
+    if (filepath == NULL)
+        return NULL;
+    file_size = get_file_size(filepath);
+    buffer = malloc(sizeof(char) * (file_size + 1));
     if ((fd = open(filepath, O_RDONLY)) == -1) {
         perror(filepath);
         return (NULL);

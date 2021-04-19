@@ -52,7 +52,7 @@ typedef struct sockaddr_in addr_t;
 
 typedef struct server {
     fd_t fd;
-    addr_t addr;
+    fd_t pasv_fd;
     char *path;
     cmd_t **cmds;
     client_t *client;
@@ -69,9 +69,9 @@ server_t *server_create(const in_port_t port, const char *path);
 int server_run(server_t *server);
 void server_destroy(server_t *server);
 int server_log(const char *fmt, ...);
+int server_log_addr(const char *prefix, const sock_t sock);
 
-addr_t create_tcp_addr(const in_port_t port);
-sock_t create_tcp_sock(const addr_t addr);
+sock_t create_tcp_sock(const int port);
 
 /**
  * @brief Accept a client

@@ -42,8 +42,8 @@ static bool path_is_correct(const char *path)
 
 static int fill_server(server_t *server, const in_port_t port, const char *path)
 {
-    server->addr = create_tcp_addr(port);
-    server->fd = create_tcp_sock(server->addr);
+    server->pasv_fd = -1;
+    server->fd = create_tcp_sock(port);
     if (server->fd == -1)
         return -1;
     server->path = get_path_with_slash(path);

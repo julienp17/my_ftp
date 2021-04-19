@@ -34,7 +34,7 @@ static int handle_input(server_t *server, client_t *client)
         remove_client(server, client);
     } else {
         buf[strlen(buf) - 1] = 0;
-        log_client("Received", client);
+        server_log_addr("Received from", client->fd);
         server_log("[%s]\n", buf);
         handle_cmd_line(server, client, buf);
     }

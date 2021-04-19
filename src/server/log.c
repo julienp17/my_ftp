@@ -7,7 +7,7 @@
 
 #include <stdio.h>
 #include <stdarg.h>
-#include "client.h"
+#include "my_ftp.h"
 
 int server_log(const char *fmt, ...)
 {
@@ -20,10 +20,15 @@ int server_log(const char *fmt, ...)
     return bytes;
 }
 
-int log_client(const char *prefix, const client_t *client)
+int server_log_addr(const char *prefix, const sock_t sock)
 {
+    addr_t addr;
+    socklen_t len = sizeof(addr_t);
+
+    if (getsockname(sock, (struct sockaddr *) &addr, &len) == -1)
+        handle_err_int("getsockname");
     return (
-        fprintf(stderr, "%s from %s:%d\n", prefix,
-                inet_ntoa(client->addr.sin_addr), ntohs(client->addr.sin_port))
+        fprintf(stderr, "%s %s:%d\n", prefix,
+                inet_ntoa(addr.sin_addr), htons(addr.sin_port))
     );
 }
