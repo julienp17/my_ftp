@@ -56,6 +56,7 @@ reply_code cmd_pass(server_t *server, client_t *client, char *arg);
 reply_code cmd_quit(server_t *server, client_t *client, char *arg);
 reply_code  cmd_pwd(server_t *server, client_t *client, char *arg);
 reply_code cmd_pasv(server_t *server, client_t *client, char *arg);
+reply_code cmd_port(server_t *server, client_t *client, char *arg);
 reply_code cmd_retr(server_t *server, client_t *client, char *arg);
 reply_code cmd_help(server_t *server, client_t *client, char *arg);
 reply_code cmd_noop(server_t *server, client_t *client, char *arg);

@@ -9,6 +9,7 @@
 #include "my.h"
 
 static int handle_input(server_t *server, client_t *client);
+static int handle_buffer(server_t *server, client_t *client, char *buf);
 static int handle_cmd_line(server_t *server, client_t *client, char *cmd_line);
 static bool client_disconnected(const ssize_t read_bytes);
 
@@ -25,7 +26,6 @@ static int handle_input(server_t *server, client_t *client)
     ssize_t bytes = 0;
     char buf[BUF_SIZE] = "\0";
 
-    // TODO: read one by one
     bytes = read(client->fd, buf, BUF_SIZE);
     FD_CLR(client->fd, &(server->read_fds));
     if (bytes == -1) {
@@ -33,17 +33,29 @@ static int handle_input(server_t *server, client_t *client)
     } else if (client_disconnected(bytes)) {
         remove_client(server, client);
     } else {
-        buf[strlen(buf) - 1] = 0;
-        server_log_addr("Received from", client->fd);
-        server_log("[%s]\n", buf);
-        handle_cmd_line(server, client, buf);
+        buf[bytes] = 0;
+        handle_buffer(server, client, strdup(buf));
     }
     return 0;
 }
 
-static bool client_disconnected(const ssize_t bytes_read)
+static int handle_buffer(server_t *server, client_t *client, char *buf)
 {
-    return bytes_read == 0;
+    size_t len = strlen(buf);
+    int status = 0;
+
+    // TODO(julien): fuck carriage return
+    // server_log("Before = [%s]\n", buf);
+    // if (len < 2 || buf[len - 2] != '\r' || buf[len - 1] != '\n') {
+    //     server_log("Incorrect end-of-line received\n");
+    //     return 0;
+    // }
+    buf[len - 1] = 0;
+    server_log_addr("Received from", client->fd);
+    server_log("[%s]\n", buf);
+    status = handle_cmd_line(server, client, buf);
+    free(buf);
+    return status;
 }
 
 static int handle_cmd_line(server_t *server, client_t *client, char *cmd_line)
@@ -53,7 +65,7 @@ static int handle_cmd_line(server_t *server, client_t *client, char *cmd_line)
     cmd_t *cmd = NULL;
 
     if (name == NULL) {
-        server_log("No input\n");
+        server_log("Empty input\n");
         return 0;
     }
     cmd = get_cmd(server->cmds, my_str_toupper(name));
@@ -62,4 +74,9 @@ static int handle_cmd_line(server_t *server, client_t *client, char *cmd_line)
         return -1;
     }
     return handle_cmd(server, client, cmd, arg);
+}
+
+static bool client_disconnected(const ssize_t bytes_read)
+{
+    return bytes_read == 0;
 }
