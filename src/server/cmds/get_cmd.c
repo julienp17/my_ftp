@@ -21,7 +21,7 @@ cmd_t **get_cmds(void)
         {"PORT", "Enable \"active\" mode for data transfer", NULL},
         {"HELP", "List available commands", &cmd_help},
         {"NOOP", "Do nothing", &cmd_noop},
-        {"RETR", "Download file from server to client", NULL},
+        {"RETR", "Download file from server to client", &cmd_retr},
         {"STOR", "Upload file from client to server", NULL},
         {"LIST", "List files in the current working directory", NULL},
         {NULL, NULL, NULL}

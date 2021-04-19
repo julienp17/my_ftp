@@ -13,7 +13,9 @@ OBJ_M		=	$(MAIN:.c=.o)
 SRC			=	$(addprefix $(SRC_D), $(SRC_F))
 OBJ			=	$(SRC:.c=.o)
 SRC_D		=	src/
-SRC_F		=	client/client_create.c \
+SRC_F		=	file_reading/get_file_size.c \
+				file_reading/get_file_buffer.c \
+				client/client_create.c \
 				client/client_destroy.c \
 				server/server_create.c \
 				server/server_run.c \
@@ -34,6 +36,7 @@ SRC_F		=	client/client_create.c \
 				server/cmds/cmd_pwd.c \
 				server/cmds/cmd_help.c \
 				server/cmds/cmd_pasv.c \
+				server/cmds/cmd_retr.c \
 				server/cmds/cmd_noop.c \
 
 UT_SRC		=	$(addprefix $(UT_SRC_D), $(UT_SRC_F))

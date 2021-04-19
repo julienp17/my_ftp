@@ -24,7 +24,7 @@ reply_code cmd_pasv(server_t *server, client_t *client, char *arg)
     } else {
         code = RPL_PASSIVE_MODE;
         send_str(client->fd, "%d %s (%s).", code, "Entering PASSIVE mode",
-            get_passive_pattern(&(server->addr), client->data_addr.sin_port));
+        get_passive_pattern(&(client->data_addr), client->data_addr.sin_port));
         server->mode = PASSIVE;
     }
     return code;
@@ -46,9 +46,10 @@ static char *get_passive_pattern(const addr_t *addr, const in_port_t port)
 {
     char buf[BUF_SIZE] = "\0";
     const uint32_t ip = addr->sin_addr.s_addr;
+    const in_port_t port = addr->sin_port;
 
     snprintf(buf, BUF_SIZE, "%u,%u,%u,%u,%u,%u",
         ip & 0xff, (ip >> 8) & 0xff, (ip >> 16) & 0xff, (ip >> 24) & 0xff,
-        (port >> 8), port & 0xff);
+        port / 256, port % 256);
     return strdup(buf);
 }

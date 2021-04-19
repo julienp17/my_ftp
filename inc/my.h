@@ -12,5 +12,6 @@
 
     bool my_str_isnum_pos(char const *str);
     char *my_str_toupper(char *str);
+    char *my_strdupcat(char const *s1, char const *s2);
 
 #endif

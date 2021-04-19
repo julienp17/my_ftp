@@ -8,7 +8,8 @@
 CC 		= 	gcc
 
 SRC		=	my_str_isnum_pos.c \
-			my_str_toupper.c
+			my_str_toupper.c \
+			my_strdupcat.c
 
 OBJ		=	$(SRC:.c=.o)
 

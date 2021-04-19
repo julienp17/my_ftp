@@ -36,7 +36,8 @@ typedef enum reply_code {
     RPL_CANNOT_OPEN_DATA_CONNECTION = 425,
     RPL_BAD_SEQUENCE = 503,
     RPL_UNKNOWN_COMMAND = 500,
-    RPL_NOT_LOGGED_IN = 530
+    RPL_NOT_LOGGED_IN = 530,
+    RPL_FILE_UNAVAILABLE = 550
 } reply_code;
 
 typedef struct server server_t;
@@ -55,6 +56,7 @@ reply_code cmd_pass(server_t *server, client_t *client, char *arg);
 reply_code cmd_quit(server_t *server, client_t *client, char *arg);
 reply_code  cmd_pwd(server_t *server, client_t *client, char *arg);
 reply_code cmd_pasv(server_t *server, client_t *client, char *arg);
+reply_code cmd_retr(server_t *server, client_t *client, char *arg);
 reply_code cmd_help(server_t *server, client_t *client, char *arg);
 reply_code cmd_noop(server_t *server, client_t *client, char *arg);
 

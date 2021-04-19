@@ -19,8 +19,7 @@ reply_code handle_data_cmd(server_t *server, client_t *client,
         code = RPL_CANNOT_OPEN_DATA_CONNECTION;
         send_reply(client->fd, code, "Use PORT or PASV first.");
     }
-    (void)cmd;
-    (void)arg;
+    code = cmd->func(server, client, arg);
     (void)fork_data_transfer;
     return code;
 }
