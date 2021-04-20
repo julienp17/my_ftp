@@ -35,6 +35,8 @@
     {"NOOP", "Do nothing", &cmd_noop}
 #define CMD_RETR \
     {"RETR", "Download file from server to client", &cmd_retr}
+#define CMD_LIST \
+    {"LIST", "List files in the current working directory", &cmd_list}
 
 typedef enum reply_code {
     RPL_SERVICE_WAIT = 120,
@@ -53,12 +55,13 @@ typedef enum reply_code {
     RPL_NEED_ACCOUNT = 332,
     RPL_SERVICE_NOT_AVAILABLE = 421,
     RPL_CANNOT_OPEN_DATA_CONNECTION = 425,
+    RPL_FILE_UNAVAILABLE_BUSY = 450,
     RPL_UNKNOWN_COMMAND = 500,
     RPL_SYNTAX_ERROR = 501,
     RPL_CMD_NOT_IMPLEMENTED = 502,
     RPL_BAD_SEQUENCE = 503,
     RPL_NOT_LOGGED_IN = 530,
-    RPL_FILE_UNAVAILABLE = 550
+    RPL_FILE_UNAVAILABLE_NO_ACCESS = 550
 } reply_code;
 
 typedef struct server server_t;
@@ -81,5 +84,6 @@ reply_code cmd_port(server_t *server, client_t *client, char *arg);
 reply_code cmd_retr(server_t *server, client_t *client, char *arg);
 reply_code cmd_help(server_t *server, client_t *client, char *arg);
 reply_code cmd_noop(server_t *server, client_t *client, char *arg);
+reply_code cmd_list(server_t *server, client_t *client, char *arg);
 
 #endif /* !CMDS_H_ */

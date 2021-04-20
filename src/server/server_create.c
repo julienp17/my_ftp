@@ -52,7 +52,7 @@ static int fill_server(server_t *server, const in_port_t port, const char *path)
     if (server->cmds == NULL)
         return -1;
     server->data_sock = -1;
-    server->port_addr = create_tcp_addr(0);
+    memset(&(server->port_addr), 0, sizeof(addr_t));
     server->client = NULL;
     server->mode = NONE;
     FD_ZERO(&server->active_fds);

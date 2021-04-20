@@ -10,4 +10,7 @@
 
     unsigned int get_file_size(char const *filepath);
     char *get_file_buffer(char const *filepath);
+
+    int get_nb_files_in_dir(char const *pathname);
+    char **get_filenames_in_dir(const char *pathname);
 #endif

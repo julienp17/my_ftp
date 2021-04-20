@@ -16,6 +16,8 @@ reply_code cmd_pasv(server_t *server, client_t *client, char *arg)
     in_port_t port = 0;
 
     (void)arg;
+    if (server->data_sock != -1)
+        close(server->data_sock);
     server->data_sock = get_free_socket(&port);
     if (server->data_sock == -1) {
         code = RPL_SERVICE_NOT_AVAILABLE;

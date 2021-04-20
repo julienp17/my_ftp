@@ -17,6 +17,7 @@ reply_code cmd_port(server_t *server, client_t *client, char *arg)
 {
     reply_code code = 0;
 
+    server->port_addr = create_tcp_addr(0);
     if (arg == NULL || parse_addr(arg, &server->port_addr) == -1) {
         code = RPL_SYNTAX_ERROR;
         send_reply(client->sock, code, "Parameter error.");

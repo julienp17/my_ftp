@@ -15,6 +15,8 @@ OBJ			=	$(SRC:.c=.o)
 SRC_D		=	src/
 SRC_F		=	file_reading/get_file_size.c \
 				file_reading/get_file_buffer.c \
+				file_reading/get_nb_files_in_dir.c \
+				file_reading/get_filenames_in_dir.c \
 				client/client_create.c \
 				client/client_destroy.c \
 				server/server_create.c \
@@ -28,7 +30,7 @@ SRC_F		=	file_reading/get_file_size.c \
 				server/send.c \
 				server/handle_inputs.c \
 				server/handle_cmd.c \
-				server/handle_data_cmd.c \
+				server/get_data_sock.c \
 				server/cmds/get_cmd.c \
 				server/cmds/cmd_user.c \
 				server/cmds/cmd_pass.c \
@@ -39,6 +41,7 @@ SRC_F		=	file_reading/get_file_size.c \
 				server/cmds/cmd_port.c \
 				server/cmds/cmd_retr.c \
 				server/cmds/cmd_noop.c \
+				server/cmds/cmd_list.c \
 
 UT_SRC		=	$(addprefix $(UT_SRC_D), $(UT_SRC_F))
 UT_OBJ		=	$(UT_SRC:.c=.o)

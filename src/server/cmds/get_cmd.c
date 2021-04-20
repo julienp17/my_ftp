@@ -17,7 +17,7 @@ cmd_t **get_cmds(void)
         {"DELE", "Delete file on the server", NULL},
         CMD_PWD, CMD_PASV, CMD_PORT, CMD_HELP, CMD_NOOP, CMD_RETR,
         {"STOR", "Upload file from client to server", NULL},
-        {"LIST", "List files in the current working directory", NULL},
+        CMD_LIST,
         {NULL, NULL, NULL}
     };
     size_t nb_commands = 0;

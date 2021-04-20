@@ -74,6 +74,8 @@ int server_log(const char *fmt, ...);
 int server_log_sock(const char *prefix, const sock_t sock);
 int server_log_addr(const char *prefix, const addr_t *addr);
 
+sock_t get_data_sock(const server_t *server);
+
 addr_t create_tcp_addr(const int port);
 sock_t create_tcp_sock(void);
 sock_t create_tcp_serv(const int port);
@@ -151,9 +153,6 @@ int handle_inputs(server_t *server);
  * @return reply_code The reply_code of the launched command
  */
 reply_code handle_cmd(server_t *server, client_t *client,
-                    cmd_t *cmd, char *arg);
-
-reply_code handle_data_cmd(server_t *server, client_t *client,
                     cmd_t *cmd, char *arg);
 
 
