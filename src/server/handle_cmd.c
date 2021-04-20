@@ -21,7 +21,7 @@ reply_code handle_cmd(server_t *server, client_t *client, cmd_t *cmd, char *arg)
     }
     if (client->auth != LOGGED_IN && !is_login_cmd(cmd->name)) {
         code = RPL_NOT_LOGGED_IN;
-        send_reply(client->fd, code, "Please login with USER and PASS.");
+        send_reply(client->sock, code, "Please login with USER and PASS.");
     } else if (is_data_transfer_cmd(cmd->name)) {
         code = handle_data_cmd(server, client, cmd, arg);
     } else {
@@ -36,6 +36,7 @@ static bool is_login_cmd(const char *cmd_name)
         strcmp(cmd_name, "USER") == 0
         || strcmp(cmd_name, "PASS") == 0
         || strcmp(cmd_name, "HELP") == 0
+        || strcmp(cmd_name, "QUIT") == 0
     );
 }
 

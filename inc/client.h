@@ -11,13 +11,12 @@
 #include <netinet/in.h>
 #include <arpa/inet.h>
 
-#include <stdarg.h>
-
 typedef int fd_t;
+typedef fd_t sock_t;
 typedef struct sockaddr_in addr_t;
 
 typedef struct client {
-    fd_t fd;
+    sock_t sock;
     char *username;
     enum auth {
         NOT_LOGGED_IN,

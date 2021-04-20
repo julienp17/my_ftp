@@ -12,7 +12,7 @@ static bool new_connection_requested(server_t *server);
 
 int server_run(server_t *server)
 {
-    server_log_sock("Listening on", server->fd);
+    server_log_sock("Listening on", server->sock);
     while (1)
         server_loop(server);
     return 0;
@@ -34,5 +34,5 @@ static int server_loop(server_t *server)
 
 static bool new_connection_requested(server_t *server)
 {
-    return FD_ISSET(server->fd, &(server->read_fds));
+    return FD_ISSET(server->sock, &(server->read_fds));
 }

@@ -15,6 +15,8 @@ void server_destroy(server_t *server)
         free(server->cmds[i]);
     free(server->cmds);
     free(server->path);
-    close(server->fd);
+    close(server->sock);
+    if (server->data_sock != -1)
+        close(server->data_sock);
     free(server);
 }

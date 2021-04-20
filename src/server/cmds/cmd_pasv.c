@@ -16,15 +16,15 @@ reply_code cmd_pasv(server_t *server, client_t *client, char *arg)
     in_port_t port = 0;
 
     (void)arg;
-    server->pasv_fd = get_free_socket(&port);
-    if (server->pasv_fd == -1) {
+    server->data_sock = get_free_socket(&port);
+    if (server->data_sock == -1) {
         code = RPL_SERVICE_NOT_AVAILABLE;
-        send_reply(client->fd, code, "Service not available, retry later.");
+        send_reply(client->sock, code, "Service not available, retry later.");
         server_log("No more ports available.\n");
     } else {
         code = RPL_PASSIVE_MODE;
-        send_str(client->fd, "%d %s (%s).", code, "Entering PASSIVE mode",
-            get_passive_pattern(server->pasv_fd));
+        send_str(client->sock, "%d %s (%s).", code, "Entering PASSIVE mode",
+            get_passive_pattern(server->data_sock));
         server->mode = PASSIVE;
     }
     return code;

@@ -12,6 +12,6 @@ reply_code cmd_pwd(server_t *server, client_t *client, char *arg)
     reply_code code = RPL_PATHNAME_CREATED;
 
     (void)arg;
-    send_str(client->fd, "%d \"%s\"", code, server->path);
+    send_str(client->sock, "%d \"%s\"", code, server->path);
     return code;
 }

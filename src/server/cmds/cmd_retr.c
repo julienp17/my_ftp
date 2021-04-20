@@ -20,16 +20,16 @@ reply_code cmd_retr(server_t *server, client_t *client, char *arg)
 
     if (buf == NULL) {
         code = RPL_FILE_UNAVAILABLE;
-        send_reply(client->fd, code, "File unavailable.");
+        send_reply(client->sock, code, "File unavailable.");
         return code;
     }
-    send_reply(client->fd, RPL_FILE_READY, "File status okay.");
-    if (send_file(server, buf) < 0) {
+    send_reply(client->sock, RPL_FILE_READY, "File status okay.");
+    if (send_file(server, buf) == -1) {
         code = RPL_CANNOT_OPEN_DATA_CONNECTION;
-        send_reply(client->fd, code, "Couldn't send file.");
+        send_reply(client->sock, code, "Couldn't send file.");
     } else {
         code = RPL_FILE_ACTION_SUCCESSFUL;
-        send_reply(client->fd, code, "Transfer complete.");
+        send_reply(client->sock, code, "Transfer complete.");
     }
     return code;
 }
@@ -39,7 +39,7 @@ static int send_file(server_t *server, char *buf)
     sock_t sock = -1;
 
     if (server->mode == PASSIVE)
-        sock = get_pasv_sock(server->pasv_fd);
+        sock = get_pasv_sock(server->data_sock);
     else if (server->mode == ACTIVE)
         sock = get_actv_sock(&(server->port_addr));
     if (sock == -1)

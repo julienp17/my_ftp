@@ -8,27 +8,24 @@
 #include "my_ftp.h"
 #include "my.h"
 
-static void list_cmds(fd_t client_fd, cmd_t **cmds);
-
 reply_code cmd_help(server_t *server, client_t *client, char *arg)
 {
+    reply_code code = RPL_HELP_MSG;
     cmd_t *cmd = NULL;
 
     if (arg == NULL) {
-        list_cmds(client->fd, server->cmds);
+        send_reply(client->sock, code,"The following commands are recognized.");
+        for (size_t i = 0 ; server->cmds[i] ; i++)
+            send_str(client->sock, "%8s", server->cmds[i]->name);
     } else {
         cmd = get_cmd(server->cmds, my_str_toupper(arg));
-        if (cmd)
-            send_str(client->fd, "%8s: %s", cmd->name, cmd->descr);
+        if (cmd == NULL) {
+            code = RPL_CMD_NOT_IMPLEMENTED;
+            send_reply(client->sock, code, "Unknown command");
+        } else {
+            send_reply(client->sock, code, "Description of command :");
+            send_str(client->sock, "%8s: %s", cmd->name, cmd->descr);
+        }
     }
-    return RPL_HELP_MSG;
-}
-
-static void list_cmds(fd_t client_fd, cmd_t **cmds)
-{
-    reply_code code = RPL_HELP_MSG;
-
-    send_reply(client_fd, code, "The following commands are recognized.");
-    for (size_t i = 0 ; cmds[i] ; i++)
-        send_str(client_fd, "%8s", cmds[i]->name);
+    return code;
 }

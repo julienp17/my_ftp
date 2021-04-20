@@ -14,6 +14,6 @@ reply_code cmd_noop(server_t *server, client_t *client, char *arg)
 
     (void)server;
     (void)arg;
-    send_reply(client->fd, code, "NOOP ok.");
+    send_reply(client->sock, code, "NOOP ok.");
     return code;
 }

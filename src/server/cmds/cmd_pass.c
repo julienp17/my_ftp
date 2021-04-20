@@ -17,10 +17,10 @@ reply_code cmd_pass(server_t *server, client_t *client, char *arg)
     (void)arg;
     if (client->auth == NOT_LOGGED_IN) {
         code = RPL_BAD_SEQUENCE;
-        send_reply(client->fd, code, "Login with USER first.");
+        send_reply(client->sock, code, "Login with USER first.");
     } else if (client->auth == LOGGED_IN) {
         code = RPL_LOGGED_IN;
-        send_reply(client->fd, code, "Already logged in.");
+        send_reply(client->sock, code, "Already logged in.");
     } else {
         code = decide_login(client);
     }
@@ -34,13 +34,14 @@ static reply_code decide_login(client_t *client)
     if (strcmp(client->username, DEFAULT_USER) == 0) {
         code = RPL_LOGGED_IN;
         client->auth = LOGGED_IN;
-        send_reply(client->fd, code, "Login succesful.");
+        send_reply(client->sock, code, "Login succesful.");
+        server_log("Client now logged in.\n");
     } else {
         free(client->username);
         client->username = NULL;
         client->auth = NOT_LOGGED_IN;
         code = RPL_NOT_LOGGED_IN;
-        send_reply(client->fd, code, "Login incorrect.");
+        send_reply(client->sock, code, "Login incorrect.");
     }
     return code;
 }

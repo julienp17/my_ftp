@@ -15,5 +15,5 @@ void add_client(server_t *server, client_t *client)
         client->next = server->client;
         server->client = client;
     }
-    FD_SET(client->fd, &(server->active_fds));
+    FD_SET(client->sock, &(server->active_fds));
 }

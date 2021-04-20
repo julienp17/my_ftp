@@ -51,8 +51,8 @@ typedef fd_t sock_t;
 typedef struct sockaddr_in addr_t;
 
 typedef struct server {
-    fd_t fd;
-    fd_t pasv_fd;
+    sock_t sock;
+    sock_t data_sock;
     addr_t port_addr;
     char *path;
     cmd_t **cmds;

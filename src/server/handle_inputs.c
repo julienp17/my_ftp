@@ -16,7 +16,7 @@ static bool client_disconnected(const ssize_t read_bytes);
 int handle_inputs(server_t *server)
 {
     for (client_t *client = server->client ; client ; client = client->next)
-        if (FD_ISSET(client->fd, &(server->read_fds)))
+        if (FD_ISSET(client->sock, &(server->read_fds)))
             handle_input(server, client);
     return 0;
 }
@@ -27,8 +27,8 @@ static int handle_input(server_t *server, client_t *client)
     char buf[BUF_SIZE] = "\0";
 
     memset(buf, 0, BUF_SIZE);
-    bytes = read(client->fd, buf, BUF_SIZE);
-    FD_CLR(client->fd, &(server->read_fds));
+    bytes = read(client->sock, buf, BUF_SIZE);
+    FD_CLR(client->sock, &(server->read_fds));
     if (bytes == -1) {
         handle_err_int("read");
     } else if (client_disconnected(bytes)) {
@@ -52,7 +52,7 @@ static int handle_buffer(server_t *server, client_t *client, char *buf)
     //     return 0;
     // }
     buf[len - 1] = 0;
-    server_log_sock("Received from", client->fd);
+    server_log_sock("Received from", client->sock);
     server_log("[%s]\n", buf);
     status = handle_cmd_line(server, client, buf);
     free(buf);
@@ -71,7 +71,7 @@ static int handle_cmd_line(server_t *server, client_t *client, char *cmd_line)
     }
     cmd = get_cmd(server->cmds, my_str_toupper(name));
     if (cmd == NULL) {
-        send_reply(client->fd, RPL_UNKNOWN_COMMAND, "Unknown command.");
+        send_reply(client->sock, RPL_UNKNOWN_COMMAND, "Unknown command.");
         return -1;
     }
     return handle_cmd(server, client, cmd, arg);
