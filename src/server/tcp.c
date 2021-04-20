@@ -7,20 +7,30 @@
 
 #include "my_ftp.h"
 
-sock_t create_tcp_sock(const int port)
+addr_t create_tcp_addr(const int port)
 {
     addr_t addr;
-    size_t len = sizeof(addr_t);
-    sock_t sock = -1;
 
-    memset(&addr, 0, len);
+    memset(&addr, 0, sizeof(addr_t));
     addr.sin_family = AF_INET;
     addr.sin_addr.s_addr = INADDR_ANY;
     addr.sin_port = htons(port);
-    sock = socket(AF_INET, SOCK_STREAM, 0);
+    return addr;
+}
+
+sock_t create_tcp_sock(void)
+{
+    return socket(AF_INET, SOCK_STREAM, 0);
+}
+
+sock_t create_tcp_serv(const int port)
+{
+    addr_t addr = create_tcp_addr(port);
+    sock_t sock = create_tcp_sock();
+
     if (sock == -1)
         handle_err_int("socket");
-    if (bind(sock, (const struct sockaddr *) &addr, len) == -1) {
+    if (bind(sock, (const struct sockaddr *) &addr, sizeof(addr_t)) == -1) {
         close(sock);
         handle_err_int("bind");
     }

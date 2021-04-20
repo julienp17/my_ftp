@@ -17,6 +17,25 @@
 #define handle_err_null(msg) \
     do { perror(msg); return NULL; } while (0)
 
+#define CMD_USER \
+    {"USER", "Specify user for authentification", &cmd_user}
+#define CMD_PASS \
+    {"PASS", "Specify password for authentication", &cmd_pass}
+#define CMD_QUIT \
+    {"QUIT", "Disconnection", &cmd_quit}
+#define CMD_PWD \
+    {"PWD", "Print working directory", &cmd_pwd}
+#define CMD_PASV \
+    {"PASV", "Enable \"passive\" mode for data transfer", &cmd_pasv}
+#define CMD_PORT \
+    {"PORT", "Enable \"active\" mode for data transfer", &cmd_port}
+#define CMD_HELP \
+    {"HELP", "List available commands", &cmd_help}
+#define CMD_NOOP \
+    {"NOOP", "Do nothing", &cmd_noop}
+#define CMD_RETR \
+    {"RETR", "Download file from server to client", &cmd_retr}
+
 typedef enum reply_code {
     RPL_SERVICE_WAIT = 120,
     RPL_TRANSFER_STARTING = 125,

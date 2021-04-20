@@ -26,6 +26,7 @@ static int handle_input(server_t *server, client_t *client)
     ssize_t bytes = 0;
     char buf[BUF_SIZE] = "\0";
 
+    memset(buf, 0, BUF_SIZE);
     bytes = read(client->fd, buf, BUF_SIZE);
     FD_CLR(client->fd, &(server->read_fds));
     if (bytes == -1) {
@@ -51,7 +52,7 @@ static int handle_buffer(server_t *server, client_t *client, char *buf)
     //     return 0;
     // }
     buf[len - 1] = 0;
-    server_log_addr("Received from", client->fd);
+    server_log_sock("Received from", client->fd);
     server_log("[%s]\n", buf);
     status = handle_cmd_line(server, client, buf);
     free(buf);

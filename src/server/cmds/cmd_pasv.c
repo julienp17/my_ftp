@@ -37,7 +37,7 @@ static sock_t get_free_socket(in_port_t *port)
     *port = MIN_DYNAMIC_PORT - 1;
     while (sock == -1 && *port < MAX_PORT) {
         *port = *port + 1;
-        sock = create_tcp_sock(*port);
+        sock = create_tcp_serv(*port);
     }
     return sock;
 }

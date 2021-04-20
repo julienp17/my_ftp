@@ -10,18 +10,12 @@
 cmd_t **get_cmds(void)
 {
     cmd_t cmds_tab[] = {
-        {"USER", "Specify user for authentification", &cmd_user},
-        {"PASS", "Specify password for authentication", &cmd_pass},
+        CMD_USER, CMD_PASS,
         {"CWD", "Change working directory", NULL},
         {"CDUP", "Change working directory to parent directory", NULL},
-        {"QUIT", "Disconnection", &cmd_quit},
+        CMD_QUIT,
         {"DELE", "Delete file on the server", NULL},
-        {"PWD", "Print working directory", &cmd_pwd},
-        {"PASV", "Enable \"passive\" mode for data transfer", &cmd_pasv},
-        {"PORT", "Enable \"active\" mode for data transfer", &cmd_port},
-        {"HELP", "List available commands", &cmd_help},
-        {"NOOP", "Do nothing", &cmd_noop},
-        {"RETR", "Download file from server to client", &cmd_retr},
+        CMD_PWD, CMD_PASV, CMD_PORT, CMD_HELP, CMD_NOOP, CMD_RETR,
         {"STOR", "Upload file from client to server", NULL},
         {"LIST", "List files in the current working directory", NULL},
         {NULL, NULL, NULL}
@@ -29,8 +23,7 @@ cmd_t **get_cmds(void)
     size_t nb_commands = 0;
     cmd_t **cmds = NULL;
 
-    while (cmds_tab[nb_commands].name != NULL)
-        nb_commands++;
+    while (cmds_tab[nb_commands++].name != NULL) {}
     cmds = malloc(sizeof(cmd_t *) * (nb_commands + 1));
     if (cmds == NULL)
         handle_err_null("malloc");

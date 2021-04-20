@@ -20,15 +20,20 @@ int server_log(const char *fmt, ...)
     return bytes;
 }
 
-int server_log_addr(const char *prefix, const sock_t sock)
+int server_log_sock(const char *prefix, const sock_t sock)
 {
     addr_t addr;
     socklen_t len = sizeof(addr_t);
 
     if (getsockname(sock, (struct sockaddr *) &addr, &len) == -1)
         handle_err_int("getsockname");
+    return (server_log_addr(prefix, &addr));
+}
+
+int server_log_addr(const char *prefix, const addr_t *addr)
+{
     return (
         fprintf(stderr, "%s %s:%d\n", prefix,
-                inet_ntoa(addr.sin_addr), htons(addr.sin_port))
+                inet_ntoa(addr->sin_addr), htons(addr->sin_port))
     );
 }
