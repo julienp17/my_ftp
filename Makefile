@@ -36,6 +36,7 @@ SRC_F		=	file_reading/get_file_size.c \
 				server/cmds/cmd_pwd.c \
 				server/cmds/cmd_help.c \
 				server/cmds/cmd_pasv.c \
+				server/cmds/cmd_port.c \
 				server/cmds/cmd_retr.c \
 				server/cmds/cmd_noop.c \
 
