@@ -15,5 +15,6 @@ void add_client(server_t *server, client_t *client)
         client->next = server->client;
         server->client = client;
     }
+    client->cwd = strdup(server->root_dir);
     FD_SET(client->sock, &(server->active_fds));
 }

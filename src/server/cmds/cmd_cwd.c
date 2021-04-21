@@ -9,13 +9,14 @@
 #include "my.h"
 #include "file_reading.h"
 
-static int change_dir(const char *root_dir, char *arg);
+static char *change_dir(const char *root_dir, client_t *client, char *arg);
+static char *get_path(const char *root_dir, const char *cwd, char *arg);
 
 reply_code cmd_cwd(server_t *server, client_t *client, char *arg)
 {
     reply_code code = 0;
 
-    if (arg == NULL || change_dir(server->root_dir, arg) == -1) {
+    if (arg == NULL || change_dir(server->root_dir, client, arg) == -1) {
         code = RPL_FILE_UNAVAILABLE_NO_ACCESS;
         send_reply(client->sock, code, "Failed to change directory.");
         return code;
@@ -25,20 +26,28 @@ reply_code cmd_cwd(server_t *server, client_t *client, char *arg)
     return code;
 }
 
-static int change_dir(const char *root_dir, char *arg)
+static char *change_dir(const char *root_dir, client_t *client, char *arg)
 {
-    char *prev_cwd = getcwd(NULL, 0);
-    char *cwd = NULL;
-    int status = 0;
+    char *cwd = get_path(root_dir, client->cwd, arg);
 
-    if (arg[0] == '/')
-        arg = my_strdupcat(root_dir, arg);
-    status = chdir(arg);
-    cwd = getcwd(NULL, 0);
-    if (strncmp(root_dir, cwd, strlen(root_dir)) != 0) {
-        chdir(prev_cwd);
-        status = -1;
-    }
+    if (cwd == NULL
+            || !file_is_dir(cwd)
+            || strncmp(root_dir, cwd, strlen(root_dir)) != 0)
+        return -1;
+    free(client->cwd);
+    client->cwd = strdup(cwd);
     free(cwd);
-    return status;
+    return 0;
+}
+
+static char *get_path(const char *root_dir, const char *cwd, char *arg)
+{
+    if (arg == NULL)
+        return NULL;
+    if (arg[0] == '/')
+        return my_strdupcat(root_dir, arg);
+    if (strncmp(arg, "./", 2) == 0)
+        return my_strdupcat(cwd, arg + 1);
+    if (strncmp(arg, "./", 2) == 0)
+        return my_strdupcat(cwd, arg + 1);
 }

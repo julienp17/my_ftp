@@ -15,6 +15,7 @@ client_t *client_create(void)
         handle_err_null("malloc");
     client->sock = -1;
     client->username = NULL;
+    client->cwd = NULL;
     client->auth = NOT_LOGGED_IN;
     client->next = NULL;
     return client;
