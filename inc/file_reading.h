@@ -8,6 +8,10 @@
 #ifndef FILE_READING_H_
     #define FILE_READING_H_
 
+    #include <stdbool.h>
+
+    bool file_is_dir(const char *path);
+
     unsigned int get_file_size(char const *filepath);
     char *get_file_buffer(char const *filepath);
 

@@ -18,6 +18,6 @@ int accept_client(server_t *server)
         handle_err_int("accept");
     add_client(server, client);
     send_reply(client->sock, RPL_SERVICE_READY, "(myftp) Service ready");
-    server_log_sock("Connection from", client->sock);
+    server_log_client("Connection from", client->sock);
     return 0;
 }

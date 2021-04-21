@@ -14,7 +14,7 @@ static int send_file_list(server_t *server, char **filenames);
 reply_code cmd_list(server_t *server, client_t *client, char *arg)
 {
     reply_code code = 0;
-    char **list = get_filenames_in_dir(server->path);
+    char **list = get_filenames_in_dir(getcwd(NULL, 0));
 
     (void)arg;
     if (list == NULL) {

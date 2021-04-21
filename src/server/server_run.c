@@ -12,7 +12,7 @@ static bool new_connection_requested(server_t *server);
 
 int server_run(server_t *server)
 {
-    server_log_sock("Listening on", server->sock);
+    server_log_server("Listening on", server->sock);
     while (1)
         server_loop(server);
     return 0;

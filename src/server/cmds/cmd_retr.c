@@ -14,14 +14,16 @@ static int send_file(server_t *server, char *buf);
 reply_code cmd_retr(server_t *server, client_t *client, char *arg)
 {
     reply_code code = 0;
-    char *buf = get_file_buffer(my_strdupcat(server->path, arg));
+    char *filename = my_strdupcat(my_strdupcat(getcwd(NULL, 0), "/"), arg);
+    char *buf = get_file_buffer(filename);
 
     if (buf == NULL) {
         code = RPL_FILE_UNAVAILABLE_NO_ACCESS;
         send_reply(client->sock, code, "File unavailable.");
         return code;
     }
-    send_reply(client->sock, RPL_FILE_READY, "File status okay.");
+    code = RPL_FILE_READY;
+    send_reply(client->sock, code,"File status okay, opening data connection.");
     if (send_file(server, buf) == -1) {
         code = RPL_CANNOT_OPEN_DATA_CONNECTION;
         send_reply(client->sock, code, "Couldn't send file.");

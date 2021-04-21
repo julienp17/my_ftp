@@ -54,7 +54,7 @@ typedef struct server {
     sock_t sock;
     sock_t data_sock;
     addr_t port_addr;
-    char *path;
+    char *root_dir;
     cmd_t **cmds;
     client_t *client;
     fd_set active_fds;
@@ -71,8 +71,9 @@ int server_run(server_t *server);
 void server_destroy(server_t *server);
 
 int server_log(const char *fmt, ...);
-int server_log_sock(const char *prefix, const sock_t sock);
 int server_log_addr(const char *prefix, const addr_t *addr);
+int server_log_server(const char *prefix, const sock_t sock);
+int server_log_client(const char *prefix, const sock_t sock);
 
 sock_t get_data_sock(const server_t *server);
 

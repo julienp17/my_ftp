@@ -17,6 +17,7 @@ SRC_F		=	file_reading/get_file_size.c \
 				file_reading/get_file_buffer.c \
 				file_reading/get_nb_files_in_dir.c \
 				file_reading/get_filenames_in_dir.c \
+				file_reading/file_is_dir.c \
 				client/client_create.c \
 				client/client_destroy.c \
 				server/server_create.c \
@@ -35,6 +36,8 @@ SRC_F		=	file_reading/get_file_size.c \
 				server/cmds/cmd_user.c \
 				server/cmds/cmd_pass.c \
 				server/cmds/cmd_quit.c \
+				server/cmds/cmd_cwd.c \
+				server/cmds/cmd_cdup.c \
 				server/cmds/cmd_pwd.c \
 				server/cmds/cmd_help.c \
 				server/cmds/cmd_pasv.c \

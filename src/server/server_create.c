@@ -6,16 +6,15 @@
 */
 
 #include "my_ftp.h"
+#include "file_reading.h"
 
-static bool path_is_correct(const char *path);
 static int fill_server(server_t *server, const in_port_t port,const char *path);
-static char *get_path_with_slash(const char *path);
 
 server_t *server_create(const in_port_t port, const char *path)
 {
     server_t *server = NULL;
 
-    if (!path_is_correct(path))
+    if (!file_is_dir(path))
         return NULL;
     server = malloc(sizeof(server_t));
     if (server == NULL)
@@ -25,29 +24,17 @@ server_t *server_create(const in_port_t port, const char *path)
     return server;
 }
 
-static bool path_is_correct(const char *path)
-{
-    struct stat file_stat;
-
-    if (stat(path, &file_stat) == -1) {
-        perror(path);
-        return false;
-    }
-    if (!S_ISDIR(file_stat.st_mode)) {
-        server_log("my_ftp: \"%s\" is not a directory\n", path);
-        return false;
-    }
-    return true;
-}
 
 static int fill_server(server_t *server, const in_port_t port, const char *path)
 {
     server->sock = create_tcp_serv(port);
     if (server->sock == -1)
         return -1;
-    server->path = get_path_with_slash(path);
-    if (server->path == NULL)
-        return -1;
+    if (chdir(path) == -1)
+        handle_err_int("chdir");
+    server->root_dir = getcwd(NULL, 0);
+    if (server->root_dir == NULL)
+        handle_err_int("getcwd");
     server->cmds = get_cmds();
     if (server->cmds == NULL)
         return -1;
@@ -59,18 +46,4 @@ static int fill_server(server_t *server, const in_port_t port, const char *path)
     FD_ZERO(&server->read_fds);
     FD_SET(server->sock, &server->active_fds);
     return 0;
-}
-
-static char *get_path_with_slash(const char *path)
-{
-    char *path_slash = NULL;
-    size_t len = strlen(path);
-
-    if (path[len - 1] == '/')
-        return strdup(path);
-    path_slash = malloc(sizeof(char) * (len + 2));
-    strncpy(path_slash, path, len);
-    path_slash[len] = '/';
-    path_slash[len + 1] = '\0';
-    return path_slash;
 }
