@@ -54,17 +54,18 @@ typedef struct command {
 
 cmd_t **get_cmds(void);
 cmd_t *get_cmd(cmd_t **commands, const char *cmd_name);
+reply_code cmd_noop(server_t *server, client_t *client, char *arg);
 reply_code cmd_user(server_t *server, client_t *client, char *arg);
 reply_code cmd_pass(server_t *server, client_t *client, char *arg);
+reply_code cmd_help(server_t *server, client_t *client, char *arg);
 reply_code cmd_quit(server_t *server, client_t *client, char *arg);
 reply_code  cmd_cwd(server_t *server, client_t *client, char *arg);
 reply_code cmd_cdup(server_t *server, client_t *client, char *arg);
 reply_code  cmd_pwd(server_t *server, client_t *client, char *arg);
 reply_code cmd_pasv(server_t *server, client_t *client, char *arg);
 reply_code cmd_port(server_t *server, client_t *client, char *arg);
+reply_code cmd_dele(server_t *server, client_t *client, char *arg);
 reply_code cmd_retr(server_t *server, client_t *client, char *arg);
-reply_code cmd_help(server_t *server, client_t *client, char *arg);
-reply_code cmd_noop(server_t *server, client_t *client, char *arg);
 reply_code cmd_list(server_t *server, client_t *client, char *arg);
 
 #endif /* !CMDS_H_ */

@@ -45,6 +45,7 @@ SRC_F		=	file_reading/get_file_size.c \
 				server/cmds/cmd_retr.c \
 				server/cmds/cmd_noop.c \
 				server/cmds/cmd_list.c \
+				server/cmds/cmd_dele.c \
 
 UT_SRC		=	$(addprefix $(UT_SRC_D), $(UT_SRC_F))
 UT_OBJ		=	$(UT_SRC:.c=.o)

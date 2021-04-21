@@ -25,7 +25,7 @@ cmd_t **get_cmds(void)
         {"LIST", "List files in the current working directory", &cmd_list},
         {"RETR", "Download file from server to client", &cmd_retr},
         {"STOR", "Upload file from client to server", NULL},
-        {"DELE", "Delete file on the server", NULL},
+        {"DELE", "Delete file on the server", &cmd_dele},
         {NULL, NULL, NULL}
     };
 
