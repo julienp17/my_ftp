@@ -64,8 +64,9 @@ reply_code cmd_cdup(server_t *server, client_t *client, char *arg);
 reply_code  cmd_pwd(server_t *server, client_t *client, char *arg);
 reply_code cmd_pasv(server_t *server, client_t *client, char *arg);
 reply_code cmd_port(server_t *server, client_t *client, char *arg);
-reply_code cmd_dele(server_t *server, client_t *client, char *arg);
-reply_code cmd_retr(server_t *server, client_t *client, char *arg);
 reply_code cmd_list(server_t *server, client_t *client, char *arg);
+reply_code cmd_retr(server_t *server, client_t *client, char *arg);
+reply_code cmd_stor(server_t *server, client_t *client, char *arg);
+reply_code cmd_dele(server_t *server, client_t *client, char *arg);
 
 #endif /* !CMDS_H_ */

@@ -35,16 +35,17 @@ SRC_F		=	file_reading/get_file_size.c \
 				server/cmds/get_cmd.c \
 				server/cmds/cmd_user.c \
 				server/cmds/cmd_pass.c \
+				server/cmds/cmd_help.c \
 				server/cmds/cmd_quit.c \
+				server/cmds/cmd_noop.c \
 				server/cmds/cmd_cwd.c \
 				server/cmds/cmd_cdup.c \
 				server/cmds/cmd_pwd.c \
-				server/cmds/cmd_help.c \
 				server/cmds/cmd_pasv.c \
 				server/cmds/cmd_port.c \
-				server/cmds/cmd_retr.c \
-				server/cmds/cmd_noop.c \
 				server/cmds/cmd_list.c \
+				server/cmds/cmd_retr.c \
+				server/cmds/cmd_stor.c \
 				server/cmds/cmd_dele.c \
 
 UT_SRC		=	$(addprefix $(UT_SRC_D), $(UT_SRC_F))
