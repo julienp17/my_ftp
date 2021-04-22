@@ -45,7 +45,7 @@ static int handle_buffer(server_t *server, client_t *client, char *buf)
     size_t len = strlen(buf);
     int status = 0;
 
-    buf[len - 1] = 0;
+    buf[len - 2] = 0;
     server_log_client("Received from", client->sock);
     server_log("[%s]\n", buf);
     status = handle_cmd_line(server, client, buf);
