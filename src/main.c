@@ -15,16 +15,16 @@ int main(int ac, char **av)
     int status = 0;
 
     if (ac == 2 && strcmp(av[1], "-h") == 0) {
-        printf(USAGE);
+        fprintf(stderr, USAGE);
         return EXIT_SUCCESS;
     } else if (ac != 3 || !my_str_isnum_pos(av[1])) {
-        printf(USAGE);
-        return EXIT_FAILURE;
+        fprintf(stderr, USAGE);
+        return 84;
     }
     port = atoi(av[1]);
     server = server_create(port, av[2]);
     if (server == NULL)
-        return EXIT_FAILURE;
+        return 84;
     status = server_run(server);
     server_destroy(server);
     return status;
