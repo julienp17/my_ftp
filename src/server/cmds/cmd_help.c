@@ -15,8 +15,8 @@ reply_code cmd_help(server_t *server, client_t *client, char *arg)
 
     if (arg == NULL) {
         send_reply(client->sock, code,"The following commands are recognized.");
-        for (size_t i = 0 ; server->cmds[i] ; i++)
-            send_str(client->sock, "%8s", server->cmds[i]->name);
+        // for (size_t i = 0 ; server->cmds[i] ; i++)
+        //     send_str(client->sock, "%8s", server->cmds[i]->name);
     } else {
         cmd = get_cmd(server->cmds, my_str_toupper(arg));
         if (cmd == NULL) {
@@ -24,7 +24,7 @@ reply_code cmd_help(server_t *server, client_t *client, char *arg)
             send_reply(client->sock, code, "Unknown command");
         } else {
             send_reply(client->sock, code, "Description of command :");
-            send_str(client->sock, "%8s: %s", cmd->name, cmd->descr);
+            // send_str(client->sock, "%8s: %s", cmd->name, cmd->descr);
         }
     }
     return code;

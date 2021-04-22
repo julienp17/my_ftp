@@ -44,4 +44,3 @@ static int send_file_list(server_t *server, char **filenames)
     close(sock);
     return 0;
 }
-
