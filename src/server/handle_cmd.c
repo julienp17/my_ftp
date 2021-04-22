@@ -17,10 +17,6 @@ reply_code handle_cmd(server_t *server, client_t *client, cmd_t *cmd, char *arg)
 {
     reply_code code = 0;
 
-    if (cmd->func == NULL) { // temporary
-        server_log("Command %s not implemented yet\n", cmd->name);
-        return -1;
-    }
     if (client->auth != LOGGED_IN && !is_login_cmd(cmd->name)) {
         code = RPL_NOT_LOGGED_IN;
         send_reply(client->sock, code, "Please login with USER and PASS.");
