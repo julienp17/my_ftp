@@ -45,7 +45,7 @@ static int handle_buffer(server_t *server, client_t *client, char *buf)
     size_t len = strlen(buf);
     int status = 0;
 
-    buf[len - 2] = 0;
+    buf[len - 1] = 0;
     server_log_client("Received from", client->sock);
     server_log("[%s]\n", buf);
     status = handle_cmd_line(server, client, buf);
@@ -61,6 +61,7 @@ static int handle_cmd_line(server_t *server, client_t *client, char *cmd_line)
 
     if (name == NULL) {
         server_log("Empty input\n");
+        send_reply(client->sock, RPL_UNKNOWN_COMMAND, "Unknown command.");
         return 0;
     }
     cmd = get_cmd(server->cmds, my_str_toupper(name));
