@@ -4,3 +4,6 @@ a.out
 unit_tests
 EPITECH-MyFTP-Protocol-(RFC959-Extract).txt
 test_ftp.sh
+lib/libmy.a
+lib/my/libmy.a
+my_ftp.pdf

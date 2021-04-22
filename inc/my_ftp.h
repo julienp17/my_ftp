@@ -81,78 +81,17 @@ addr_t create_tcp_addr(const int port);
 sock_t create_tcp_sock(void);
 sock_t create_tcp_serv(const int port);
 
-/**
- * @brief Accept a client
- *
- * Call the "accept" syscall, and then call the add_client function
- *
- * @param server The server accepting the client
- * @return 0 if client was accepted, -1 otherwise
- */
+
 int accept_client(server_t *server);
-
-/**
- * @brief Adds a client
- *
- * Adds the client into the server's linked list and active fdset
- *
- * @param server The server adding the client
- * @param client The client to add
- */
 void add_client(server_t *server, client_t *client);
-
-/**
- * @brief Remove a client
- *
- * Remove the client from the server's linked list and active fdset,
- * log disconnection, and call client_destroy.
- *
- * @param server The server removing the client
- * @param client The client to remove
- */
 void remove_client(server_t *server, client_t *client);
 
-/**
- * @brief Send a Command Reply Sequence to a client
- *
- * Same as send_str(client_fd, "%d %s", code, line);
- *
- * @param client_fd The file descriptor of the client to send the message to
- * @param code The 3-digit reply code
- * @param line Line of text explaining the reply
- * @return ssize_t The number of bytes written to the client
- */
 ssize_t send_reply(fd_t client_fd, reply_code code, const char *line);
 
-/**
- * @brief Send a message to the client
- *
- * Automatically adds CRLF to the end of the string.
- *
- * @param client_fd The file descriptor of the client to send the message to
- * @param fmt Format of the string to send
- * @param ... Format arguments
- * @return ssize_t The number of bytes written to the client
- */
 ssize_t send_str(fd_t client_fd, const char *fmt, ...);
 
-/**
- * @brief Handle the inputs received by the server
- *
- * @param server The server receiving the input
- * @return 0 on success, -1 on error
- */
 int handle_inputs(server_t *server);
 
-/**
- * @brief Determines the logic for handling commands
- *
- * @param server The server on which the commands are launched
- * @param client The client that requested the command
- * @param cmd The requested command
- * @param arg The (optionnal) command argument
- * @return reply_code The reply_code of the launched command
- */
 reply_code handle_cmd(server_t *server, client_t *client,
                     cmd_t *cmd, char *arg);
 
