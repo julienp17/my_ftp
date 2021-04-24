@@ -24,7 +24,6 @@ server_t *server_create(const in_port_t port, const char *path)
     return server;
 }
 
-
 static int fill_server(server_t *server, const in_port_t port, const char *path)
 {
     server->sock = create_tcp_serv(port);
